@@ -1,7 +1,12 @@
 ﻿using DirectShowLib;
 using System;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+using System.Linq;
+
 
 namespace shot_detection_src_30
 {
@@ -47,12 +52,22 @@ namespace shot_detection_src_30
             this.btnBrowse = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtThreshold1 = new System.Windows.Forms.TextBox();
+            this.txtThreshold2 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnoutputfolder = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtoutput = new System.Windows.Forms.TextBox();
+            this.btnStartPixelDifferenceSD = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStart.Location = new System.Drawing.Point(12, 326);
+            this.btnStart.Location = new System.Drawing.Point(12, 458);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -64,7 +79,7 @@ namespace shot_detection_src_30
             // 
             this.lblFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(13, 307);
+            this.lblFileName.Location = new System.Drawing.Point(13, 439);
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(55, 13);
             this.lblFileName.TabIndex = 2;
@@ -73,7 +88,7 @@ namespace shot_detection_src_30
             // txtFileName
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFileName.Location = new System.Drawing.Point(94, 307);
+            this.txtFileName.Location = new System.Drawing.Point(94, 439);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(100, 20);
             this.txtFileName.TabIndex = 3;
@@ -82,7 +97,7 @@ namespace shot_detection_src_30
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBrowse.Location = new System.Drawing.Point(201, 303);
+            this.btnBrowse.Location = new System.Drawing.Point(201, 435);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 4;
@@ -94,7 +109,7 @@ namespace shot_detection_src_30
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(94, 326);
+            this.btnPause.Location = new System.Drawing.Point(94, 458);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 5;
@@ -111,14 +126,100 @@ namespace shot_detection_src_30
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(582, 298);
+            this.panel1.Size = new System.Drawing.Size(587, 410);
             this.panel1.TabIndex = 0;
+            // 
+            // txtThreshold1
+            // 
+            this.txtThreshold1.Location = new System.Drawing.Point(162, 22);
+            this.txtThreshold1.Name = "txtThreshold1";
+            this.txtThreshold1.Size = new System.Drawing.Size(100, 20);
+            this.txtThreshold1.TabIndex = 6;
+            // 
+            // txtThreshold2
+            // 
+            this.txtThreshold2.Location = new System.Drawing.Point(162, 45);
+            this.txtThreshold2.Name = "txtThreshold2";
+            this.txtThreshold2.Size = new System.Drawing.Size(100, 20);
+            this.txtThreshold2.TabIndex = 7;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnoutputfolder);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtoutput);
+            this.groupBox1.Controls.Add(this.btnStartPixelDifferenceSD);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txtThreshold1);
+            this.groupBox1.Controls.Add(this.txtThreshold2);
+            this.groupBox1.Location = new System.Drawing.Point(596, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(268, 144);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Pixel Difference ShotDetection";
+            // 
+            // btnoutputfolder
+            // 
+            this.btnoutputfolder.Location = new System.Drawing.Point(81, 66);
+            this.btnoutputfolder.Name = "btnoutputfolder";
+            this.btnoutputfolder.Size = new System.Drawing.Size(75, 23);
+            this.btnoutputfolder.TabIndex = 13;
+            this.btnoutputfolder.Text = "Browse";
+            this.btnoutputfolder.UseVisualStyleBackColor = true;
+            this.btnoutputfolder.Click += new System.EventHandler(this.btnoutputfolder_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Outputfolder:";
+            // 
+            // txtoutput
+            // 
+            this.txtoutput.Location = new System.Drawing.Point(162, 68);
+            this.txtoutput.Name = "txtoutput";
+            this.txtoutput.Size = new System.Drawing.Size(100, 20);
+            this.txtoutput.TabIndex = 11;
+            // 
+            // btnStartPixelDifferenceSD
+            // 
+            this.btnStartPixelDifferenceSD.Location = new System.Drawing.Point(9, 102);
+            this.btnStartPixelDifferenceSD.Name = "btnStartPixelDifferenceSD";
+            this.btnStartPixelDifferenceSD.Size = new System.Drawing.Size(75, 23);
+            this.btnStartPixelDifferenceSD.TabIndex = 10;
+            this.btnStartPixelDifferenceSD.Text = "Start SD";
+            this.btnStartPixelDifferenceSD.UseVisualStyleBackColor = true;
+            this.btnStartPixelDifferenceSD.Click += new System.EventHandler(this.StartPixelDifferenceSD_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Threshold 2:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Threshold 1:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(589, 361);
+            this.ClientSize = new System.Drawing.Size(870, 493);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.txtFileName);
@@ -127,6 +228,8 @@ namespace shot_detection_src_30
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -257,6 +360,40 @@ namespace shot_detection_src_30
             // Rewind clip to beginning to allow DxPlay.Start to work again.
             m_play.Rewind();
         }
+        //Select outp
+        private void btnoutputfolder_Click(object sender, System.EventArgs e)
+        {
+            FolderBrowserDialog  fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                txtoutput.Text = fbd.SelectedPath;
+            }
+        }
+        private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
+        {
+            ShotDetection SD = new ShotDetection(txtFileName.Text);
+            List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
+            XDocument doc = new XDocument(                               
+                    new XElement("ShotDetection",
+                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))                        
+                    ) 
+            );
+            MessageBox.Show("The Shot Detection is complete", "SD",MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //Save the document to a file.
+            doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
+
+        }
+
+        private TextBox txtThreshold1;
+        private TextBox txtThreshold2;
+        private GroupBox groupBox1;
+        private Button btnStartPixelDifferenceSD;
+        private Label label2;
+        private Label label1;
+        private Button btnoutputfolder;
+        private Label label3;
+        private TextBox txtoutput;
+        
     }
 }
 
