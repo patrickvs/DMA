@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
+using System.Diagnostics;
+using System.Threading;
 
 
 namespace shot_detection_src_30
@@ -79,7 +81,7 @@ namespace shot_detection_src_30
             // 
             this.lblFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(13, 439);
+            this.lblFileName.Location = new System.Drawing.Point(13, 434);
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(55, 13);
             this.lblFileName.TabIndex = 2;
@@ -88,7 +90,7 @@ namespace shot_detection_src_30
             // txtFileName
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFileName.Location = new System.Drawing.Point(94, 439);
+            this.txtFileName.Location = new System.Drawing.Point(94, 431);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(100, 20);
             this.txtFileName.TabIndex = 3;
@@ -97,7 +99,7 @@ namespace shot_detection_src_30
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBrowse.Location = new System.Drawing.Point(201, 435);
+            this.btnBrowse.Location = new System.Drawing.Point(200, 429);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 4;
@@ -227,7 +229,7 @@ namespace shot_detection_src_30
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Video Shot Detection, Annotation and Retrieval";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -371,6 +373,10 @@ namespace shot_detection_src_30
         }
         private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
         {
+            // Create new stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+            // Begin timing
+            stopwatch.Start();
             ShotDetection SD = new ShotDetection(txtFileName.Text);
             List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
             XDocument doc = new XDocument(                               
@@ -378,7 +384,8 @@ namespace shot_detection_src_30
                         new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))                        
                     ) 
             );
-            MessageBox.Show("The Shot Detection is complete", "SD",MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            stopwatch.Stop();
+            MessageBox.Show("The Shot Detection is completed in "+ stopwatch.Elapsed, "SD",MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
 
