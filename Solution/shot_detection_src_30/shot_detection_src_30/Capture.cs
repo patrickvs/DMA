@@ -449,7 +449,14 @@ namespace shot_detection_src_30
                     // Release the thread (if the thread was started)
                     if (m_mre != null)
                     {
-                        m_mre.Set();
+                        try
+                        {
+                            m_mre.Set();
+                        }
+                        catch (Exception e)
+                        {
+                            //do nothing with exception
+                        }
                     }
                 }
 
