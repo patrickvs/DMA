@@ -57,13 +57,29 @@ namespace shot_detection_src_30
             this.txtThreshold1 = new System.Windows.Forms.TextBox();
             this.txtThreshold2 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnoutputfolder = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtoutput = new System.Windows.Forms.TextBox();
             this.btnStartPixelDifferenceSD = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtBins = new System.Windows.Forms.TextBox();
+            this.txtThreshold = new System.Windows.Forms.TextBox();
+            this.btnStartGlobalHistogramSD = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnoutputfolder = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtoutput = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtBinsLocalHistogram = new System.Windows.Forms.TextBox();
+            this.txtThresholdLocalHistogram = new System.Windows.Forms.TextBox();
+            this.btnStartLocalHistogramSD = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtRegionsize = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -147,9 +163,6 @@ namespace shot_detection_src_30
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnoutputfolder);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtoutput);
             this.groupBox1.Controls.Add(this.btnStartPixelDifferenceSD);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -157,40 +170,14 @@ namespace shot_detection_src_30
             this.groupBox1.Controls.Add(this.txtThreshold2);
             this.groupBox1.Location = new System.Drawing.Point(596, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 144);
+            this.groupBox1.Size = new System.Drawing.Size(268, 113);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Pixel Difference ShotDetection";
             // 
-            // btnoutputfolder
-            // 
-            this.btnoutputfolder.Location = new System.Drawing.Point(81, 66);
-            this.btnoutputfolder.Name = "btnoutputfolder";
-            this.btnoutputfolder.Size = new System.Drawing.Size(75, 23);
-            this.btnoutputfolder.TabIndex = 13;
-            this.btnoutputfolder.Text = "Browse";
-            this.btnoutputfolder.UseVisualStyleBackColor = true;
-            this.btnoutputfolder.Click += new System.EventHandler(this.btnoutputfolder_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Outputfolder:";
-            // 
-            // txtoutput
-            // 
-            this.txtoutput.Location = new System.Drawing.Point(162, 68);
-            this.txtoutput.Name = "txtoutput";
-            this.txtoutput.Size = new System.Drawing.Size(100, 20);
-            this.txtoutput.TabIndex = 11;
-            // 
             // btnStartPixelDifferenceSD
             // 
-            this.btnStartPixelDifferenceSD.Location = new System.Drawing.Point(9, 102);
+            this.btnStartPixelDifferenceSD.Location = new System.Drawing.Point(83, 79);
             this.btnStartPixelDifferenceSD.Name = "btnStartPixelDifferenceSD";
             this.btnStartPixelDifferenceSD.Size = new System.Drawing.Size(75, 23);
             this.btnStartPixelDifferenceSD.TabIndex = 10;
@@ -216,11 +203,171 @@ namespace shot_detection_src_30
             this.label1.TabIndex = 8;
             this.label1.Text = "Threshold 1:";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtBins);
+            this.groupBox2.Controls.Add(this.txtThreshold);
+            this.groupBox2.Controls.Add(this.btnStartGlobalHistogramSD);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Location = new System.Drawing.Point(596, 141);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(268, 116);
+            this.groupBox2.TabIndex = 9;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Global Histogram ShotDetection";
+            // 
+            // txtBins
+            // 
+            this.txtBins.Location = new System.Drawing.Point(162, 49);
+            this.txtBins.Name = "txtBins";
+            this.txtBins.Size = new System.Drawing.Size(100, 20);
+            this.txtBins.TabIndex = 13;
+            // 
+            // txtThreshold
+            // 
+            this.txtThreshold.Location = new System.Drawing.Point(162, 24);
+            this.txtThreshold.Name = "txtThreshold";
+            this.txtThreshold.Size = new System.Drawing.Size(100, 20);
+            this.txtThreshold.TabIndex = 12;
+            // 
+            // btnStartGlobalHistogramSD
+            // 
+            this.btnStartGlobalHistogramSD.Location = new System.Drawing.Point(83, 80);
+            this.btnStartGlobalHistogramSD.Name = "btnStartGlobalHistogramSD";
+            this.btnStartGlobalHistogramSD.Size = new System.Drawing.Size(75, 23);
+            this.btnStartGlobalHistogramSD.TabIndex = 11;
+            this.btnStartGlobalHistogramSD.Text = "Start SD";
+            this.btnStartGlobalHistogramSD.UseVisualStyleBackColor = true;
+            this.btnStartGlobalHistogramSD.Click += new System.EventHandler(this.StartGlobalHistogramSD_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Number of bins:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 27);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Threshold:";
+            // 
+            // btnoutputfolder
+            // 
+            this.btnoutputfolder.Location = new System.Drawing.Point(500, 431);
+            this.btnoutputfolder.Name = "btnoutputfolder";
+            this.btnoutputfolder.Size = new System.Drawing.Size(75, 23);
+            this.btnoutputfolder.TabIndex = 16;
+            this.btnoutputfolder.Text = "Browse";
+            this.btnoutputfolder.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(298, 434);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Outputfolder:";
+            // 
+            // txtoutput
+            // 
+            this.txtoutput.Location = new System.Drawing.Point(394, 431);
+            this.txtoutput.Name = "txtoutput";
+            this.txtoutput.Size = new System.Drawing.Size(100, 20);
+            this.txtoutput.TabIndex = 14;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtRegionsize);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.txtBinsLocalHistogram);
+            this.groupBox3.Controls.Add(this.txtThresholdLocalHistogram);
+            this.groupBox3.Controls.Add(this.btnStartLocalHistogramSD);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Location = new System.Drawing.Point(596, 276);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(268, 137);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Local Histogram ShotDetection";
+            // 
+            // txtBinsLocalHistogram
+            // 
+            this.txtBinsLocalHistogram.Location = new System.Drawing.Point(162, 49);
+            this.txtBinsLocalHistogram.Name = "txtBinsLocalHistogram";
+            this.txtBinsLocalHistogram.Size = new System.Drawing.Size(100, 20);
+            this.txtBinsLocalHistogram.TabIndex = 13;
+            // 
+            // txtThresholdLocalHistogram
+            // 
+            this.txtThresholdLocalHistogram.Location = new System.Drawing.Point(162, 24);
+            this.txtThresholdLocalHistogram.Name = "txtThresholdLocalHistogram";
+            this.txtThresholdLocalHistogram.Size = new System.Drawing.Size(100, 20);
+            this.txtThresholdLocalHistogram.TabIndex = 12;
+            // 
+            // btnStartLocalHistogramSD
+            // 
+            this.btnStartLocalHistogramSD.Location = new System.Drawing.Point(83, 108);
+            this.btnStartLocalHistogramSD.Name = "btnStartLocalHistogramSD";
+            this.btnStartLocalHistogramSD.Size = new System.Drawing.Size(75, 23);
+            this.btnStartLocalHistogramSD.TabIndex = 11;
+            this.btnStartLocalHistogramSD.Text = "Start SD";
+            this.btnStartLocalHistogramSD.UseVisualStyleBackColor = true;
+            this.btnStartLocalHistogramSD.Click += new System.EventHandler(this.StartLocalHistogramSD_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 51);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Number of bins:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 27);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(57, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Threshold:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 76);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Region size:";
+            // 
+            // txtRegionsize
+            // 
+            this.txtRegionsize.Location = new System.Drawing.Point(162, 73);
+            this.txtRegionsize.Name = "txtRegionsize";
+            this.txtRegionsize.Size = new System.Drawing.Size(100, 20);
+            this.txtRegionsize.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 493);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.btnoutputfolder);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtoutput);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnBrowse);
@@ -232,6 +379,10 @@ namespace shot_detection_src_30
             this.Text = "Video Shot Detection, Annotation and Retrieval";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -362,7 +513,7 @@ namespace shot_detection_src_30
             // Rewind clip to beginning to allow DxPlay.Start to work again.
             m_play.Rewind();
         }
-        //Select outp
+        //Select output
         private void btnoutputfolder_Click(object sender, System.EventArgs e)
         {
             FolderBrowserDialog  fbd = new FolderBrowserDialog();
@@ -405,15 +556,68 @@ namespace shot_detection_src_30
             doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
         }
 
+        private void StartGlobalHistogramSD_Click(object sender, EventArgs e)
+        {
+            // Create new stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+            // Begin timing
+            stopwatch.Start();
+            ShotDetection SD = new ShotDetection(txtFileName.Text);
+            List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+            XDocument doc = new XDocument(
+                    new XElement("ShotDetection",
+                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))
+                    )
+            );
+            stopwatch.Stop();
+            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //Save the document to a file.
+            doc.Save(txtoutput.Text + "\\GlobalHistogramSD.xml");
+
+        }
+
+        private void StartLocalHistogramSD_Click(object sender, EventArgs e)
+        {
+            // Create new stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+            // Begin timing
+            stopwatch.Start();
+            ShotDetection SD = new ShotDetection(txtFileName.Text);
+            List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            XDocument doc = new XDocument(
+                    new XElement("ShotDetection",
+                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))
+                    )
+            );
+            stopwatch.Stop();
+            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //Save the document to a file.
+            doc.Save(txtoutput.Text + "\\LocalHistogramSD.xml");
+
+        }
         private TextBox txtThreshold1;
         private TextBox txtThreshold2;
         private GroupBox groupBox1;
         private Button btnStartPixelDifferenceSD;
         private Label label2;
         private Label label1;
+        private GroupBox groupBox2;
+        private Label label5;
+        private Label label4;
+        private TextBox txtBins;
+        private TextBox txtThreshold;
+        private Button btnStartGlobalHistogramSD;
         private Button btnoutputfolder;
         private Label label3;
         private TextBox txtoutput;
+        private GroupBox groupBox3;
+        private TextBox txtRegionsize;
+        private Label label8;
+        private TextBox txtBinsLocalHistogram;
+        private TextBox txtThresholdLocalHistogram;
+        private Button btnStartLocalHistogramSD;
+        private Label label6;
+        private Label label7;
         
     }
 }

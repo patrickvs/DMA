@@ -16,16 +16,5 @@ namespace shot_detection_src_30
         {
             InitializeComponent();
         }
-
-       
-
-       
-
-       
-
-        
-
-       
-       
     }
 }
