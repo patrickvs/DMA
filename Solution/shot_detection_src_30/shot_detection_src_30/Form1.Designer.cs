@@ -267,6 +267,7 @@ namespace shot_detection_src_30
             this.btnoutputfolder.TabIndex = 16;
             this.btnoutputfolder.Text = "Browse";
             this.btnoutputfolder.UseVisualStyleBackColor = true;
+            this.btnoutputfolder.Click += new System.EventHandler(this.btnoutputfolder_Click);
             // 
             // label3
             // 
