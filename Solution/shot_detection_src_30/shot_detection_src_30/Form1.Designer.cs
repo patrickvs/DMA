@@ -144,7 +144,7 @@ namespace shot_detection_src_30
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(587, 410);
+            this.panel1.Size = new System.Drawing.Size(312, 235);
             this.panel1.TabIndex = 0;
             // 
             // txtThreshold1
@@ -528,18 +528,32 @@ namespace shot_detection_src_30
             Stopwatch stopwatch = new Stopwatch();
             // Begin timing
             stopwatch.Start();
-            ShotDetection SD = new ShotDetection(txtFileName.Text);
-            List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
-            XDocument doc = new XDocument(                               
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))                        
-                    ) 
-            );
+            //ShotDetection SD = new ShotDetection(txtFileName.Text);
+            //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
+
+            DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
+            Frames frames = new Frames(txtFileName.Text, pd);
+            List<int> detectedShots = pd.getDetectedShots();
+            detectedShots.Add(pd.getFrameNumber() - 1);         
             stopwatch.Stop();
-            MessageBox.Show("The Shot Detection is completed in "+ stopwatch.Elapsed, "SD",MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            setupOutputFile(detectedShots);
+            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void setupOutputFile(List<int> detectedShots)
+        {
+            List<String> shotList = new List<String>();
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            }
+            XDocument doc = new XDocument(
+                    new XElement("ShotDetection",
+                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
+                    )
+            );
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
-
         }
 
         private void StartGlobalHistogramSD_Click(object sender, EventArgs e)

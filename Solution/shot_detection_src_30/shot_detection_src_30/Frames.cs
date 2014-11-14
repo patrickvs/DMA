@@ -18,6 +18,7 @@ namespace shot_detection_src_30
     internal class Frames : ISampleGrabberCB, IDisposable
     {
         List<byte[]> frameList = new List<byte[]>();
+        DetectionAlgorithm algo;
         
         #region Member variables
 
@@ -58,12 +59,12 @@ namespace shot_detection_src_30
         #endregion
 
         /// <summary> File name to scan</summary>
-        public Frames(string FileName)
+        public Frames(string FileName, DetectionAlgorithm algo)
         {
             try
             {
                 // Set up the capture graph
-                SetupGraph(FileName);
+                SetupGraph(FileName, algo);
                 Start();
                 WaitUntilDone();
             }
@@ -108,7 +109,7 @@ namespace shot_detection_src_30
         }
 
         /// <summary> build the capture graph for grabber. </summary>
-        private void SetupGraph(string FileName)
+        private void SetupGraph(string FileName, DetectionAlgorithm algo)
         {
             int hr;
 
@@ -138,7 +139,7 @@ namespace shot_detection_src_30
                 sampGrabber = new SampleGrabber() as ISampleGrabber;
                 baseGrabFlt = sampGrabber as IBaseFilter;
 
-                ConfigureSampleGrabber(sampGrabber);
+                ConfigureSampleGrabber(sampGrabber, algo);
 
                 // Add the frame grabber to the graph
                 hr = m_FilterGraph.AddFilter(baseGrabFlt, "Ds.NET Grabber");
@@ -177,6 +178,9 @@ namespace shot_detection_src_30
 
                 // Read and cache the image sizes
                 SaveSizeInfo(sampGrabber);
+                algo.setHeight(m_videoHeight);
+                algo.setWidth(m_videoWidth);
+                algo.setStride(m_stride);
             }
             finally
             {
@@ -224,7 +228,7 @@ namespace shot_detection_src_30
         }
 
         /// <summary> Set the options on the sample grabber </summary>
-        private void ConfigureSampleGrabber(ISampleGrabber sampGrabber)
+        private void ConfigureSampleGrabber(ISampleGrabber sampGrabber, DetectionAlgorithm algo)
         {
             AMMediaType media;
             int hr;
@@ -241,7 +245,7 @@ namespace shot_detection_src_30
             media = null;
 
             // Choose to call BufferCB instead of SampleCB
-            hr = sampGrabber.SetCallback(this, 1);
+            hr = sampGrabber.SetCallback(algo, 1);
             DsError.ThrowExceptionForHR(hr);
         }
 
