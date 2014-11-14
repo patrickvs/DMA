@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace shot_detection_src_30
 {
@@ -12,7 +13,7 @@ namespace shot_detection_src_30
         public int width;
         public int height;
         public ShotDetection(String file){
-            Frames framegetter = new Frames(file);
+            Frames framegetter = new Frames(file, new PixelDifference(0,0));
             frameList = framegetter.getframes();
             width = framegetter.getWidth();
             height = framegetter.getHeight();
