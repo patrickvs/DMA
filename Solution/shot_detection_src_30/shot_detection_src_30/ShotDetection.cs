@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using System.Windows.Forms;
-=======
 using System.Diagnostics;
->>>>>>> 5ac27a437e64a6c1f63951ff0e4c972246e6449a
 
 namespace shot_detection_src_30
 {
