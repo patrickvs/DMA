@@ -535,14 +535,8 @@ namespace shot_detection_src_30
             DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
             Frames frames = new Frames(txtFileName.Text, pd);
             List<int> detectedShots = pd.getDetectedShots();
-            detectedShots.Add(pd.getFrameNumber() - 1);         
+            detectedShots.Add(pd.getFrameNumber());         
             stopwatch.Stop();
-            setupOutputFile(detectedShots);
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-        }
-
-        private void setupOutputFile(List<int> detectedShots)
-        {
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
@@ -555,6 +549,7 @@ namespace shot_detection_src_30
             );
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
+            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         private void StartGlobalHistogramSD_Click(object sender, EventArgs e)
@@ -563,14 +558,24 @@ namespace shot_detection_src_30
             Stopwatch stopwatch = new Stopwatch();
             // Begin timing
             stopwatch.Start();
-            ShotDetection SD = new ShotDetection(txtFileName.Text);
-            List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+            //ShotDetection SD = new ShotDetection(txtFileName.Text);
+            //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+
+            DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+            Frames frames = new Frames(txtFileName.Text, ghSD);
+            List<int> detectedShots = ghSD.getDetectedShots();
+            detectedShots.Add(ghSD.getFrameNumber());
+            stopwatch.Stop();
+            List<String> shotList = new List<String>();
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            }
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
-                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))
+                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
                     )
             );
-            stopwatch.Stop();
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\GlobalHistogramSD.xml");
@@ -583,14 +588,23 @@ namespace shot_detection_src_30
             Stopwatch stopwatch = new Stopwatch();
             // Begin timing
             stopwatch.Start();
-            ShotDetection SD = new ShotDetection(txtFileName.Text);
-            List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            //ShotDetection SD = new ShotDetection(txtFileName.Text);
+            //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtRegionsize.Text));
+            Frames frames = new Frames(txtFileName.Text, lhSD);
+            List<int> detectedShots = lhSD.getDetectedShots();
+            detectedShots.Add(lhSD.getFrameNumber());
+            stopwatch.Stop();
+            List<String> shotList = new List<String>();
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            }
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
-                        new XElement("shot", shotsDetected.Select(x => new XElement("shot", new XAttribute("value", x))))
+                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
                     )
             );
-            stopwatch.Stop();
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\LocalHistogramSD.xml");
