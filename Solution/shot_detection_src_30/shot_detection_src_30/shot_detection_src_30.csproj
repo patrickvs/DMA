@@ -59,6 +59,7 @@
     <Compile Include="Frames.cs" />
     <Compile Include="GlobalHistogramSD.cs" />
     <Compile Include="LocalHistogramSD.cs" />
+    <Compile Include="MotionEstimation.cs" />
     <Compile Include="PixelDifference.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

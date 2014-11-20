@@ -70,22 +70,31 @@ namespace shot_detection_src_30
             this.label3 = new System.Windows.Forms.Label();
             this.txtoutput = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtRegionsize = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.txtBinsLocalHistogram = new System.Windows.Forms.TextBox();
             this.txtThresholdLocalHistogram = new System.Windows.Forms.TextBox();
             this.btnStartLocalHistogramSD = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtRegionsize = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtWindowSizeMotionEstimation = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtBlockSizeMotionEstimation = new System.Windows.Forms.TextBox();
+            this.txtThresholdMotionEstimation = new System.Windows.Forms.TextBox();
+            this.btnStartMotionEstimationSD = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStart.Location = new System.Drawing.Point(12, 458);
+            this.btnStart.Location = new System.Drawing.Point(12, 542);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -97,7 +106,7 @@ namespace shot_detection_src_30
             // 
             this.lblFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(13, 434);
+            this.lblFileName.Location = new System.Drawing.Point(13, 518);
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(55, 13);
             this.lblFileName.TabIndex = 2;
@@ -106,7 +115,7 @@ namespace shot_detection_src_30
             // txtFileName
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFileName.Location = new System.Drawing.Point(94, 431);
+            this.txtFileName.Location = new System.Drawing.Point(94, 515);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(100, 20);
             this.txtFileName.TabIndex = 3;
@@ -115,7 +124,7 @@ namespace shot_detection_src_30
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBrowse.Location = new System.Drawing.Point(200, 429);
+            this.btnBrowse.Location = new System.Drawing.Point(200, 513);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 4;
@@ -127,7 +136,7 @@ namespace shot_detection_src_30
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(94, 458);
+            this.btnPause.Location = new System.Drawing.Point(94, 542);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 5;
@@ -144,7 +153,7 @@ namespace shot_detection_src_30
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(312, 235);
+            this.panel1.Size = new System.Drawing.Size(591, 319);
             this.panel1.TabIndex = 0;
             // 
             // txtThreshold1
@@ -163,12 +172,13 @@ namespace shot_detection_src_30
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnStartPixelDifferenceSD);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtThreshold1);
             this.groupBox1.Controls.Add(this.txtThreshold2);
-            this.groupBox1.Location = new System.Drawing.Point(596, 12);
+            this.groupBox1.Location = new System.Drawing.Point(613, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(268, 113);
             this.groupBox1.TabIndex = 8;
@@ -205,12 +215,13 @@ namespace shot_detection_src_30
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.txtBins);
             this.groupBox2.Controls.Add(this.txtThreshold);
             this.groupBox2.Controls.Add(this.btnStartGlobalHistogramSD);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(596, 141);
+            this.groupBox2.Location = new System.Drawing.Point(613, 286);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(268, 116);
             this.groupBox2.TabIndex = 9;
@@ -261,7 +272,8 @@ namespace shot_detection_src_30
             // 
             // btnoutputfolder
             // 
-            this.btnoutputfolder.Location = new System.Drawing.Point(500, 431);
+            this.btnoutputfolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnoutputfolder.Location = new System.Drawing.Point(500, 514);
             this.btnoutputfolder.Name = "btnoutputfolder";
             this.btnoutputfolder.Size = new System.Drawing.Size(75, 23);
             this.btnoutputfolder.TabIndex = 16;
@@ -271,8 +283,9 @@ namespace shot_detection_src_30
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(298, 434);
+            this.label3.Location = new System.Drawing.Point(298, 517);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 15;
@@ -280,13 +293,15 @@ namespace shot_detection_src_30
             // 
             // txtoutput
             // 
-            this.txtoutput.Location = new System.Drawing.Point(394, 431);
+            this.txtoutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtoutput.Location = new System.Drawing.Point(394, 514);
             this.txtoutput.Name = "txtoutput";
             this.txtoutput.Size = new System.Drawing.Size(100, 20);
             this.txtoutput.TabIndex = 14;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.txtRegionsize);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txtBinsLocalHistogram);
@@ -294,12 +309,28 @@ namespace shot_detection_src_30
             this.groupBox3.Controls.Add(this.btnStartLocalHistogramSD);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Location = new System.Drawing.Point(596, 276);
+            this.groupBox3.Location = new System.Drawing.Point(613, 428);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(268, 137);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Local Histogram ShotDetection";
+            // 
+            // txtRegionsize
+            // 
+            this.txtRegionsize.Location = new System.Drawing.Point(162, 73);
+            this.txtRegionsize.Name = "txtRegionsize";
+            this.txtRegionsize.Size = new System.Drawing.Size(100, 20);
+            this.txtRegionsize.TabIndex = 15;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 76);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Region size:";
             // 
             // txtBinsLocalHistogram
             // 
@@ -343,27 +374,87 @@ namespace shot_detection_src_30
             this.label7.TabIndex = 9;
             this.label7.Text = "Threshold:";
             // 
-            // label8
+            // groupBox4
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 76);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 13);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "Region size:";
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.txtWindowSizeMotionEstimation);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.txtBlockSizeMotionEstimation);
+            this.groupBox4.Controls.Add(this.txtThresholdMotionEstimation);
+            this.groupBox4.Controls.Add(this.btnStartMotionEstimationSD);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Location = new System.Drawing.Point(613, 143);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(268, 137);
+            this.groupBox4.TabIndex = 18;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Motion Estimation ShotDetection";
             // 
-            // txtRegionsize
+            // txtWindowSizeMotionEstimation
             // 
-            this.txtRegionsize.Location = new System.Drawing.Point(162, 73);
-            this.txtRegionsize.Name = "txtRegionsize";
-            this.txtRegionsize.Size = new System.Drawing.Size(100, 20);
-            this.txtRegionsize.TabIndex = 15;
+            this.txtWindowSizeMotionEstimation.Location = new System.Drawing.Point(162, 73);
+            this.txtWindowSizeMotionEstimation.Name = "txtWindowSizeMotionEstimation";
+            this.txtWindowSizeMotionEstimation.Size = new System.Drawing.Size(100, 20);
+            this.txtWindowSizeMotionEstimation.TabIndex = 15;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(9, 76);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(70, 13);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Window size:";
+            // 
+            // txtBlockSizeMotionEstimation
+            // 
+            this.txtBlockSizeMotionEstimation.Location = new System.Drawing.Point(162, 49);
+            this.txtBlockSizeMotionEstimation.Name = "txtBlockSizeMotionEstimation";
+            this.txtBlockSizeMotionEstimation.Size = new System.Drawing.Size(100, 20);
+            this.txtBlockSizeMotionEstimation.TabIndex = 13;
+            // 
+            // txtThresholdMotionEstimation
+            // 
+            this.txtThresholdMotionEstimation.Location = new System.Drawing.Point(162, 24);
+            this.txtThresholdMotionEstimation.Name = "txtThresholdMotionEstimation";
+            this.txtThresholdMotionEstimation.Size = new System.Drawing.Size(100, 20);
+            this.txtThresholdMotionEstimation.TabIndex = 12;
+            // 
+            // btnStartMotionEstimationSD
+            // 
+            this.btnStartMotionEstimationSD.Location = new System.Drawing.Point(83, 108);
+            this.btnStartMotionEstimationSD.Name = "btnStartMotionEstimationSD";
+            this.btnStartMotionEstimationSD.Size = new System.Drawing.Size(75, 23);
+            this.btnStartMotionEstimationSD.TabIndex = 11;
+            this.btnStartMotionEstimationSD.Text = "Start SD";
+            this.btnStartMotionEstimationSD.UseVisualStyleBackColor = true;
+            this.btnStartMotionEstimationSD.Click += new System.EventHandler(this.StartMotionEstimationSD_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 51);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(58, 13);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Block size:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(9, 27);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(57, 13);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Threshold:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(870, 493);
+            this.ClientSize = new System.Drawing.Size(893, 577);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnoutputfolder);
             this.Controls.Add(this.label3);
@@ -384,6 +475,8 @@ namespace shot_detection_src_30
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -610,6 +703,35 @@ namespace shot_detection_src_30
             doc.Save(txtoutput.Text + "\\LocalHistogramSD.xml");
 
         }
+
+        private void StartMotionEstimationSD_Click(object sender, EventArgs e)
+        {
+            // Create new stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+            // Begin timing
+            stopwatch.Start();
+            //ShotDetection SD = new ShotDetection(txtFileName.Text);
+            //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
+            Frames frames = new Frames(txtFileName.Text, meSD);
+            List<int> detectedShots = meSD.getDetectedShots();
+            detectedShots.Add(meSD.getFrameNumber());
+            stopwatch.Stop();
+            List<String> shotList = new List<String>();
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            }
+            XDocument doc = new XDocument(
+                    new XElement("ShotDetection",
+                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
+                    )
+            );
+            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //Save the document to a file.
+            doc.Save(txtoutput.Text + "\\MotionEstimationSD.xml");
+
+        }
         private TextBox txtThreshold1;
         private TextBox txtThreshold2;
         private GroupBox groupBox1;
@@ -633,6 +755,14 @@ namespace shot_detection_src_30
         private Button btnStartLocalHistogramSD;
         private Label label6;
         private Label label7;
+        private GroupBox groupBox4;
+        private TextBox txtWindowSizeMotionEstimation;
+        private Label label9;
+        private TextBox txtBlockSizeMotionEstimation;
+        private TextBox txtThresholdMotionEstimation;
+        private Button btnStartMotionEstimationSD;
+        private Label label10;
+        private Label label11;
         
     }
 }
