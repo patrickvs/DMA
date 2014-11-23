@@ -84,10 +84,19 @@ namespace shot_detection_src_30
             double avg = differences.Average();
             double sumOfSquaresOfDifferences = differences.Select(val => (val - avg) * (val - avg)).Sum();
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / differences.Count);
+            double median = getMedian();
 
             const double alpha = 5.0;
-            lowTresh = avg;
+            lowTresh = Math.Max(median, avg);
             highTresh = avg + alpha * sd;
+        }
+        private double getMedian()
+        {
+            List<int> sorted = new List<int>(differences);
+            sorted.Sort();
+            int size = sorted.Count;
+            int mid = size / 2;
+            return (size % 2 == 0) ? sorted[mid] : (sorted[mid] + sorted[mid - 1]) / 2;
         }
 
         public void detectGradualTransitions()
@@ -100,16 +109,28 @@ namespace shot_detection_src_30
                 double sum = 0.0;//sum of the differences in consecutive frames
                 //if there is a difference higher than the lower tresh and smaller than the higher tresh
                 //enter the if statement. This is the start of a gradual transition.
-                if (differences[i] > lowTresh && differences[i] < highTresh)
+
+                //detect cuts
+                if (differences[i] >= highTresh && i + 1 - detectedShots[detectedShots.Count - 1] > 5)
+                {
+                    detectedShots.Add(i + 1);
+                }
+                else if (differences[i] > lowTresh)
                 {
                     //loop over consecutive frames until the difference is lower than the lower tresh.
-                    while (i < differences.Count && differences[i] > lowTresh)
+                    while (i < differences.Count && differences[i] >= lowTresh && differences[i] < highTresh)
                     {
                         sum += differences[i];
+
                         i++; //dont forget to adjust the for iterator!!!
                     }
+                    //if left the while because there was a difference greater than the higher tresh -> cut
+                    if (differences[i] >= highTresh && i < differences.Count - 1 && i + 1 - detectedShots[detectedShots.Count - 1] > 5)
+                    {
+                        detectedShots.Add(i + 1);
+                    }
                     //check if the sum surpasses the higher tresh, if it does there was a gradual transition
-                    if (sum >= highTresh && i < differences.Count)
+                    else if (sum >= highTresh && i < differences.Count && i - detectedShots[detectedShots.Count - 1] > 5)
                     {
                         detectedShots.Add(i);
                     }
