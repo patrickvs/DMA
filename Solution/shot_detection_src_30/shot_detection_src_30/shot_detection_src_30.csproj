@@ -57,6 +57,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Frames.cs" />
+    <Compile Include="GeneralizedSD.cs" />
     <Compile Include="GlobalHistogramSD.cs" />
     <Compile Include="LocalHistogramSD.cs" />
     <Compile Include="MotionEstimation.cs" />
