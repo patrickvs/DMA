@@ -9,6 +9,13 @@ namespace shot_detection_src_30
     class GeneralizedSD : DetectionAlgorithm
     {
 
+        /* used papers:
+         * http://www.moivre.usherbrooke.ca/sites/default/files/1.pdf
+         * http://www.roman10.net/video-boundary-detectionpart-2-gradual-transition-and-its-matlab-implementation/
+         * http://roman10.net/src/gradual_transition_detection.m
+         * http://hrcak.srce.hr/file/40946
+         */
+
         private int bins;
         private int regionsize;
         private List<int> differences = new List<int>();
