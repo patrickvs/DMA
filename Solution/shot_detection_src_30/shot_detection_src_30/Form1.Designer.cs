@@ -91,16 +91,27 @@ namespace shot_detection_src_30
             this.btnStartGeneralizedSD = new System.Windows.Forms.Button();
             this.lblRegionGeneralized = new System.Windows.Forms.Label();
             this.lblBinsGeneralized = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lstShots = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(15, 403);
+            this.btnStart.Location = new System.Drawing.Point(18, 108);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -111,7 +122,7 @@ namespace shot_detection_src_30
             // lblFileName
             // 
             this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(12, 327);
+            this.lblFileName.Location = new System.Drawing.Point(15, 23);
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(55, 13);
             this.lblFileName.TabIndex = 2;
@@ -119,7 +130,7 @@ namespace shot_detection_src_30
             // 
             // txtFileName
             // 
-            this.txtFileName.Location = new System.Drawing.Point(86, 327);
+            this.txtFileName.Location = new System.Drawing.Point(89, 23);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(100, 20);
             this.txtFileName.TabIndex = 3;
@@ -127,7 +138,7 @@ namespace shot_detection_src_30
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(218, 327);
+            this.btnBrowse.Location = new System.Drawing.Point(204, 23);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 4;
@@ -138,7 +149,7 @@ namespace shot_detection_src_30
             // btnPause
             // 
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(111, 403);
+            this.btnPause.Location = new System.Drawing.Point(114, 108);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 5;
@@ -148,12 +159,11 @@ namespace shot_detection_src_30
             // 
             // panel1
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panel1.AutoSize = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(15, 3);
+            this.panel1.Location = new System.Drawing.Point(15, 7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(363, 315);
+            this.panel1.Size = new System.Drawing.Size(363, 276);
             this.panel1.TabIndex = 0;
             // 
             // txtThreshold1
@@ -179,14 +189,14 @@ namespace shot_detection_src_30
             this.groupBox1.Controls.Add(this.txtThreshold2);
             this.groupBox1.Location = new System.Drawing.Point(385, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 113);
+            this.groupBox1.Size = new System.Drawing.Size(268, 137);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Pixel Difference ShotDetection";
             // 
             // btnStartPixelDifferenceSD
             // 
-            this.btnStartPixelDifferenceSD.Location = new System.Drawing.Point(83, 79);
+            this.btnStartPixelDifferenceSD.Location = new System.Drawing.Point(83, 108);
             this.btnStartPixelDifferenceSD.Name = "btnStartPixelDifferenceSD";
             this.btnStartPixelDifferenceSD.Size = new System.Drawing.Size(75, 23);
             this.btnStartPixelDifferenceSD.TabIndex = 10;
@@ -219,9 +229,9 @@ namespace shot_detection_src_30
             this.groupBox2.Controls.Add(this.btnStartGlobalHistogramSD);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(385, 122);
+            this.groupBox2.Location = new System.Drawing.Point(385, 146);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 116);
+            this.groupBox2.Size = new System.Drawing.Size(268, 137);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Global Histogram ShotDetection";
@@ -242,7 +252,7 @@ namespace shot_detection_src_30
             // 
             // btnStartGlobalHistogramSD
             // 
-            this.btnStartGlobalHistogramSD.Location = new System.Drawing.Point(83, 80);
+            this.btnStartGlobalHistogramSD.Location = new System.Drawing.Point(83, 108);
             this.btnStartGlobalHistogramSD.Name = "btnStartGlobalHistogramSD";
             this.btnStartGlobalHistogramSD.Size = new System.Drawing.Size(75, 23);
             this.btnStartGlobalHistogramSD.TabIndex = 11;
@@ -270,7 +280,7 @@ namespace shot_detection_src_30
             // 
             // btnoutputfolder
             // 
-            this.btnoutputfolder.Location = new System.Drawing.Point(218, 363);
+            this.btnoutputfolder.Location = new System.Drawing.Point(204, 60);
             this.btnoutputfolder.Name = "btnoutputfolder";
             this.btnoutputfolder.Size = new System.Drawing.Size(75, 23);
             this.btnoutputfolder.TabIndex = 16;
@@ -281,7 +291,7 @@ namespace shot_detection_src_30
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 366);
+            this.label3.Location = new System.Drawing.Point(15, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 15;
@@ -289,7 +299,7 @@ namespace shot_detection_src_30
             // 
             // txtoutput
             // 
-            this.txtoutput.Location = new System.Drawing.Point(86, 366);
+            this.txtoutput.Location = new System.Drawing.Point(89, 60);
             this.txtoutput.Name = "txtoutput";
             this.txtoutput.Size = new System.Drawing.Size(100, 20);
             this.txtoutput.TabIndex = 14;
@@ -303,7 +313,7 @@ namespace shot_detection_src_30
             this.groupBox3.Controls.Add(this.btnStartLocalHistogramSD);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Location = new System.Drawing.Point(665, 156);
+            this.groupBox3.Location = new System.Drawing.Point(665, 146);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(268, 137);
             this.groupBox3.TabIndex = 17;
@@ -449,9 +459,9 @@ namespace shot_detection_src_30
             this.groupBox5.Controls.Add(this.btnStartGeneralizedSD);
             this.groupBox5.Controls.Add(this.lblRegionGeneralized);
             this.groupBox5.Controls.Add(this.lblBinsGeneralized);
-            this.groupBox5.Location = new System.Drawing.Point(385, 249);
+            this.groupBox5.Location = new System.Drawing.Point(665, 294);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(268, 116);
+            this.groupBox5.Size = new System.Drawing.Size(268, 137);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Generalized ShotDetection";
@@ -472,7 +482,7 @@ namespace shot_detection_src_30
             // 
             // btnStartGeneralizedSD
             // 
-            this.btnStartGeneralizedSD.Location = new System.Drawing.Point(83, 80);
+            this.btnStartGeneralizedSD.Location = new System.Drawing.Point(83, 108);
             this.btnStartGeneralizedSD.Name = "btnStartGeneralizedSD";
             this.btnStartGeneralizedSD.Size = new System.Drawing.Size(75, 23);
             this.btnStartGeneralizedSD.TabIndex = 11;
@@ -498,24 +508,113 @@ namespace shot_detection_src_30
             this.lblBinsGeneralized.TabIndex = 9;
             this.lblBinsGeneralized.Text = "Number of bins:";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lblFileName);
+            this.groupBox6.Controls.Add(this.txtFileName);
+            this.groupBox6.Controls.Add(this.btnBrowse);
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.btnoutputfolder);
+            this.groupBox6.Controls.Add(this.btnPause);
+            this.groupBox6.Controls.Add(this.txtoutput);
+            this.groupBox6.Controls.Add(this.btnStart);
+            this.groupBox6.Location = new System.Drawing.Point(15, 294);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(294, 137);
+            this.groupBox6.TabIndex = 20;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Play/Pause video";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.button3);
+            this.groupBox7.Controls.Add(this.button2);
+            this.groupBox7.Controls.Add(this.button1);
+            this.groupBox7.Controls.Add(this.textBox1);
+            this.groupBox7.Controls.Add(this.label13);
+            this.groupBox7.Controls.Add(this.lstShots);
+            this.groupBox7.Controls.Add(this.label12);
+            this.groupBox7.Location = new System.Drawing.Point(385, 294);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(268, 141);
+            this.groupBox7.TabIndex = 21;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Shots";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(28, 107);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Play shot";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(109, 107);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(72, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Annotate";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(162, 59);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(15, 59);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(61, 13);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Annotation:";
+            // 
+            // lstShots
+            // 
+            this.lstShots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lstShots.Enabled = false;
+            this.lstShots.FormattingEnabled = true;
+            this.lstShots.Location = new System.Drawing.Point(141, 22);
+            this.lstShots.Name = "lstShots";
+            this.lstShots.Size = new System.Drawing.Size(121, 21);
+            this.lstShots.TabIndex = 1;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 22);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(63, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Select shot:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(187, 107);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Retrieve";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(945, 439);
+            this.ClientSize = new System.Drawing.Size(945, 447);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnoutputfolder);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtoutput);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnPause);
-            this.Controls.Add(this.btnBrowse);
-            this.Controls.Add(this.txtFileName);
-            this.Controls.Add(this.lblFileName);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Video Shot Detection, Annotation and Retrieval";
@@ -529,6 +628,10 @@ namespace shot_detection_src_30
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -637,6 +740,7 @@ namespace shot_detection_src_30
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 txtFileName.Text = ofd.FileName;
+                lstShots.Enabled = false;
             }
         }
 
@@ -668,6 +772,12 @@ namespace shot_detection_src_30
                 txtoutput.Text = fbd.SelectedPath;
             }
         }
+
+        private void btnPlayShot_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
         private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
         {
             // Create new stopwatch
@@ -676,7 +786,7 @@ namespace shot_detection_src_30
             stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
-
+            lstShots.Items.Clear();
             DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
             Frames frames = new Frames(txtFileName.Text, pd);
             List<int> detectedShots = pd.getDetectedShots();
@@ -686,7 +796,9 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            lstShots.Enabled = true;
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
                         new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
@@ -705,7 +817,7 @@ namespace shot_detection_src_30
             stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
-
+            lstShots.Items.Clear();
             DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
             Frames frames = new Frames(txtFileName.Text, ghSD);
             List<int> detectedShots = ghSD.getDetectedShots();
@@ -715,7 +827,9 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
-            }
+                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            } 
+            lstShots.Enabled = true;
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
                         new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
@@ -735,6 +849,7 @@ namespace shot_detection_src_30
             stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            lstShots.Items.Clear();
             DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtRegionsize.Text));
             Frames frames = new Frames(txtFileName.Text, lhSD);
             List<int> detectedShots = lhSD.getDetectedShots();
@@ -744,7 +859,9 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            lstShots.Enabled = true;
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
                         new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
@@ -764,6 +881,7 @@ namespace shot_detection_src_30
             stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
+            lstShots.Items.Clear();
             DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
             Frames frames = new Frames(txtFileName.Text, meSD);
             List<int> detectedShots = meSD.getDetectedShots();
@@ -773,7 +891,9 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            lstShots.Enabled = true;
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
                         new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
@@ -791,6 +911,7 @@ namespace shot_detection_src_30
             Stopwatch stopwatch = new Stopwatch();
             // Begin timing
             stopwatch.Start();
+            lstShots.Items.Clear();
             GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtRegionGeneralized.Text));
             Frames frames = new Frames(txtFileName.Text, gSD);
             gSD.detectGradualTransitions();
@@ -801,7 +922,9 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            lstShots.Enabled = true;
             XDocument doc = new XDocument(
                     new XElement("ShotDetection",
                         new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
@@ -848,6 +971,15 @@ namespace shot_detection_src_30
         private Button btnStartGeneralizedSD;
         private Label lblRegionGeneralized;
         private Label lblBinsGeneralized;
+        private GroupBox groupBox6;
+        private GroupBox groupBox7;
+        private Label label12;
+        private ComboBox lstShots;
+        private Button button1;
+        private TextBox textBox1;
+        private Label label13;
+        private Button button2;
+        private Button button3;
         
     }
 }
