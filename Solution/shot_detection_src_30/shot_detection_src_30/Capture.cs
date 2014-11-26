@@ -204,6 +204,7 @@ namespace shot_detection_src_30
             if (m_State == GraphState.Stopped || m_State == GraphState.Paused)
             {
                 int hr = m_mediaCtrl.Run();
+
                 DsError.ThrowExceptionForHR( hr );
 
                 m_State = GraphState.Running;
@@ -242,6 +243,18 @@ namespace shot_detection_src_30
 
             IMediaPosition imp = m_FilterGraph as IMediaPosition;
             hr = imp.put_CurrentPosition(0);
+        }
+
+        public void playShot(long startFrame, long stopFrame)
+        {
+
+            IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
+            ims.SetTimeFormat(TimeFormat.Frame);
+            Stop();
+            DsLong start = new DsLong(startFrame);
+            DsLong stop = new DsLong(stopFrame);
+            ims.SetPositions(start, AMSeekingSeekingFlags.AbsolutePositioning, stopFrame, AMSeekingSeekingFlags.AbsolutePositioning);
+            Start();
         }
 
         // Grab a snapshot of the most recent image played.

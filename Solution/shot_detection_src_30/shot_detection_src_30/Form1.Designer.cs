@@ -93,13 +93,13 @@ namespace shot_detection_src_30
             this.lblBinsGeneralized = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnRetrieve = new System.Windows.Forms.Button();
+            this.btnPlayShot = new System.Windows.Forms.Button();
+            this.btnAnnotate = new System.Windows.Forms.Button();
+            this.txtAnnotation = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.lstShots = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,7 +163,7 @@ namespace shot_detection_src_30
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(15, 7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(363, 276);
+            this.panel1.Size = new System.Drawing.Size(332, 276);
             this.panel1.TabIndex = 0;
             // 
             // txtThreshold1
@@ -527,10 +527,10 @@ namespace shot_detection_src_30
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.button3);
-            this.groupBox7.Controls.Add(this.button2);
-            this.groupBox7.Controls.Add(this.button1);
-            this.groupBox7.Controls.Add(this.textBox1);
+            this.groupBox7.Controls.Add(this.btnRetrieve);
+            this.groupBox7.Controls.Add(this.btnPlayShot);
+            this.groupBox7.Controls.Add(this.btnAnnotate);
+            this.groupBox7.Controls.Add(this.txtAnnotation);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lstShots);
             this.groupBox7.Controls.Add(this.label12);
@@ -541,30 +541,42 @@ namespace shot_detection_src_30
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Shots";
             // 
-            // button2
+            // btnRetrieve
             // 
-            this.button2.Location = new System.Drawing.Point(28, 107);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Play shot";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnRetrieve.Location = new System.Drawing.Point(187, 107);
+            this.btnRetrieve.Name = "btnRetrieve";
+            this.btnRetrieve.Size = new System.Drawing.Size(75, 23);
+            this.btnRetrieve.TabIndex = 6;
+            this.btnRetrieve.Text = "Retrieve";
+            this.btnRetrieve.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnPlayShot
             // 
-            this.button1.Location = new System.Drawing.Point(109, 107);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(72, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Annotate";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnPlayShot.Location = new System.Drawing.Point(28, 107);
+            this.btnPlayShot.Name = "btnPlayShot";
+            this.btnPlayShot.Size = new System.Drawing.Size(75, 23);
+            this.btnPlayShot.TabIndex = 5;
+            this.btnPlayShot.Enabled = false;
+            this.btnPlayShot.Text = "Play shot";
+            this.btnPlayShot.UseVisualStyleBackColor = true;
+            this.btnPlayShot.Click += new System.EventHandler(this.btnPlayShot_Click);
             // 
-            // textBox1
+            // btnAnnotate
             // 
-            this.textBox1.Location = new System.Drawing.Point(162, 59);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
+            this.btnAnnotate.Location = new System.Drawing.Point(109, 107);
+            this.btnAnnotate.Name = "btnAnnotate";
+            this.btnAnnotate.Size = new System.Drawing.Size(72, 23);
+            this.btnAnnotate.TabIndex = 4;
+            this.btnAnnotate.Enabled = false;
+            this.btnAnnotate.Text = "Annotate";
+            this.btnAnnotate.UseVisualStyleBackColor = true;
+            // 
+            // txtAnnotation
+            // 
+            this.txtAnnotation.Location = new System.Drawing.Point(162, 59);
+            this.txtAnnotation.Name = "txtAnnotation";
+            this.txtAnnotation.Size = new System.Drawing.Size(100, 20);
+            this.txtAnnotation.TabIndex = 3;
             // 
             // label13
             // 
@@ -584,6 +596,7 @@ namespace shot_detection_src_30
             this.lstShots.Name = "lstShots";
             this.lstShots.Size = new System.Drawing.Size(121, 21);
             this.lstShots.TabIndex = 1;
+            this.lstShots.SelectedIndexChanged += new System.EventHandler(lstShotsChanged);
             // 
             // label12
             // 
@@ -593,15 +606,6 @@ namespace shot_detection_src_30
             this.label12.Size = new System.Drawing.Size(63, 13);
             this.label12.TabIndex = 0;
             this.label12.Text = "Select shot:";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(187, 107);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Retrieve";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -651,7 +655,9 @@ namespace shot_detection_src_30
             Uninit,
             Stopped,
             Paused,
-            Playing
+            Playing,
+            ShotPlaying,
+            ShotPaused
         }
         State m_State = State.Uninit;
         DxPlay m_play = null;
@@ -689,14 +695,23 @@ namespace shot_detection_src_30
                     MessageBox.Show("Failed to open file: " + ce.Message, "Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
+            if (m_State == State.ShotPaused)
+            {
+                btnPlayShot.Text = "Play shot";
+                m_State = State.Stopped;
+                m_play.Rewind();
+            }
             // If we were stopped, start
             if (m_State == State.Stopped)
             {
                 btnStart.Text = "Stop";
                 m_play.Start();
                 btnPause.Enabled = true;
+                btnPlayShot.Enabled = false;
+                btnRetrieve.Enabled = false;
+                btnAnnotate.Enabled = false;
                 txtFileName.Enabled = false;
+                lstShots.Enabled = false;
                 btnBrowse.Enabled = false;
                 m_State = State.Playing;
             }
@@ -708,6 +723,16 @@ namespace shot_detection_src_30
                 btnPause.Enabled = false;
                 txtFileName.Enabled = true;
                 btnBrowse.Enabled = true;
+                if (lstShots.Items.Count != 0)
+                {
+                    lstShots.Enabled = true;
+                    if (lstShots.SelectedItem != null)
+                    {
+                        btnPlayShot.Enabled = true;
+                        btnAnnotate.Enabled = true;
+                        btnRetrieve.Enabled = true;
+                    }
+                }
                 btnStart.Text = "Start";
                 btnPause.Text = "Pause";
                 m_State = State.Stopped;
@@ -740,7 +765,12 @@ namespace shot_detection_src_30
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 txtFileName.Text = ofd.FileName;
+                lstShots.Items.Clear();
                 lstShots.Enabled = false;
+                btnPlayShot.Enabled = false;
+                btnRetrieve.Enabled = false;
+                btnAnnotate.Enabled = false;
+
             }
         }
 
@@ -750,11 +780,13 @@ namespace shot_detection_src_30
             // This isn't the right way to do this, but heck, it's only a sample
             CheckForIllegalCrossThreadCalls = false;
 
+            btnStart.Enabled = true;
             btnPause.Enabled = false;
             txtFileName.Enabled = true;
             btnBrowse.Enabled = true;
             btnStart.Text = "Start";
             btnPause.Text = "Pause";
+            btnPlayShot.Text = "Play shot";
 
             CheckForIllegalCrossThreadCalls = true;
 
@@ -775,7 +807,61 @@ namespace shot_detection_src_30
 
         private void btnPlayShot_Click(object sender, System.EventArgs e)
         {
+            char[] delimiterChars = { '-' };
+            string[] frames = lstShots.SelectedItem.ToString().Split(delimiterChars);
 
+            // If necessary, close the old file
+            if (m_State == State.Stopped)
+            {
+                // Did the filename change?
+                if (txtFileName.Text != m_play.FileName)
+                {
+                    // File name changed, close the old file
+                    m_play.Dispose();
+                    m_play = null;
+                    m_State = State.Uninit;
+                }
+            }
+
+            // If we have no file open
+            if (m_play == null)
+            {
+                try
+                {
+                    // Open the file, provide a handle to play it in
+                    m_play = new DxPlay(panel1, txtFileName.Text);
+
+                    // Let us know when the file is finished playing
+                    m_play.StopPlay += new DxPlay.DxPlayEvent(m_play_StopPlay);
+                    m_State = State.Stopped;
+                }
+                catch (COMException ce)
+                {
+                    MessageBox.Show("Failed to open file: " + ce.Message, "Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            if (m_State == State.Stopped)
+            {
+                m_play.playShot((long)Int16.Parse(frames[0]), (long)Int16.Parse(frames[1]));
+                btnStart.Enabled = false;
+                btnPlayShot.Text = "Pause shot";
+                m_State = State.ShotPlaying;
+            }
+            else if (m_State == State.ShotPlaying)
+            {
+                m_play.Pause();
+                btnStart.Enabled = true;
+                btnPlayShot.Text = "Resume shot";
+                m_State = State.ShotPaused;
+            }
+            // If we are paused, start
+            else if (m_State == State.ShotPaused)
+            {
+                m_play.Start();
+                btnPlayShot.Text = "Pause shot";
+                m_State = State.ShotPlaying;
+            }
         }
 
         private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
@@ -934,6 +1020,14 @@ namespace shot_detection_src_30
             //Save the document to a file.
             doc.Save(txtoutput.Text + "\\GeneralizedSD.xml");
         }
+
+        private void lstShotsChanged(object sender, EventArgs e)
+        {
+            btnPlayShot.Enabled = true;
+            btnAnnotate.Enabled = true;
+            btnRetrieve.Enabled = true;
+        }
+
         private TextBox txtThreshold1;
         private TextBox txtThreshold2;
         private GroupBox groupBox1;
@@ -975,11 +1069,11 @@ namespace shot_detection_src_30
         private GroupBox groupBox7;
         private Label label12;
         private ComboBox lstShots;
-        private Button button1;
-        private TextBox textBox1;
+        private Button btnAnnotate;
+        private TextBox txtAnnotation;
         private Label label13;
-        private Button button2;
-        private Button button3;
+        private Button btnPlayShot;
+        private Button btnRetrieve;
         
     }
 }
