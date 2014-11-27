@@ -27,11 +27,6 @@ namespace shot_detection_src_30
             return detectedShots;
         }
 
-        public int getFrameNumber()
-        {
-            return frameNumber;
-        }
-
         //this method is called for each frame, pBuffer is a pointer to the first byte of the frame
         public unsafe int BufferCB(double SampleTime, IntPtr pBuffer, int BufferLen)
         {
@@ -73,8 +68,16 @@ namespace shot_detection_src_30
             this.m_stride = stride;
         }
 
+        public void addLastFrame()
+        {
+            detectedShots.Add(frameNumber);
+        }
+
         //abstract method to compare frames
         abstract public void compareFrames(byte[] p, byte[] c, int frameNumber);
+
+        //abstract method to export the shot information found with a specific detection algorithm
+        abstract public void export(string inputfile, string outputfolder);
 
 
         public int SampleCB(double SampleTime, IMediaSample pSample)

@@ -245,6 +245,8 @@ namespace shot_detection_src_30
             hr = imp.put_CurrentPosition(0);
         }
 
+        //used to play a specific shot
+        //the parameters are the framenumbers of the starting frame and the ending frame of the shot
         public void playShot(long startFrame, long stopFrame)
         {
 

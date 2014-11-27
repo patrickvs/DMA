@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace shot_detection_src_30
 {
@@ -72,6 +73,26 @@ namespace shot_detection_src_30
                 }
             }
             return Math.Abs(currentframevalue - previousframevalue);
-        }       
+        }
+
+        public override void export(string inputfile, string outputfolder)
+        {
+            List<string> shotList = new List<string>();
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+            }
+            XDocument doc = new XDocument(
+                    new XElement("ShotDetection", new XAttribute("file", inputfile),
+                        new XElement("method", new XAttribute("nr", 2),
+                        new XElement("param1", tresh),
+                        new XElement("param2", blockSize),
+                        new XElement("param3", windowSize)),
+                        new XElement("shots", shotList.Select(x => new XElement("shot", x)))
+                    )
+            );
+            //Save the document to a file.
+            doc.Save(outputfolder + "\\MotionEstimationSD.xml"); 
+        }
     }
 }

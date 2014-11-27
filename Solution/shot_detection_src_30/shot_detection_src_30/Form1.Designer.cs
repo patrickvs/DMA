@@ -93,6 +93,7 @@ namespace shot_detection_src_30
             this.lblBinsGeneralized = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnRetrieve = new System.Windows.Forms.Button();
             this.btnPlayShot = new System.Windows.Forms.Button();
             this.btnAnnotate = new System.Windows.Forms.Button();
@@ -527,6 +528,7 @@ namespace shot_detection_src_30
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.btnExport);
             this.groupBox7.Controls.Add(this.btnRetrieve);
             this.groupBox7.Controls.Add(this.btnPlayShot);
             this.groupBox7.Controls.Add(this.btnAnnotate);
@@ -541,8 +543,20 @@ namespace shot_detection_src_30
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Shots";
             // 
+            // btnExport
+            // 
+            this.btnExport.Enabled = false;
+            this.btnExport.Location = new System.Drawing.Point(28, 107);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(75, 23);
+            this.btnExport.TabIndex = 7;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // btnRetrieve
             // 
+            this.btnRetrieve.Enabled = false;
             this.btnRetrieve.Location = new System.Drawing.Point(187, 107);
             this.btnRetrieve.Name = "btnRetrieve";
             this.btnRetrieve.Size = new System.Drawing.Size(75, 23);
@@ -552,22 +566,22 @@ namespace shot_detection_src_30
             // 
             // btnPlayShot
             // 
-            this.btnPlayShot.Location = new System.Drawing.Point(28, 107);
+            this.btnPlayShot.Enabled = false;
+            this.btnPlayShot.Location = new System.Drawing.Point(187, 18);
             this.btnPlayShot.Name = "btnPlayShot";
             this.btnPlayShot.Size = new System.Drawing.Size(75, 23);
             this.btnPlayShot.TabIndex = 5;
-            this.btnPlayShot.Enabled = false;
             this.btnPlayShot.Text = "Play shot";
             this.btnPlayShot.UseVisualStyleBackColor = true;
             this.btnPlayShot.Click += new System.EventHandler(this.btnPlayShot_Click);
             // 
             // btnAnnotate
             // 
+            this.btnAnnotate.Enabled = false;
             this.btnAnnotate.Location = new System.Drawing.Point(109, 107);
             this.btnAnnotate.Name = "btnAnnotate";
             this.btnAnnotate.Size = new System.Drawing.Size(72, 23);
             this.btnAnnotate.TabIndex = 4;
-            this.btnAnnotate.Enabled = false;
             this.btnAnnotate.Text = "Annotate";
             this.btnAnnotate.UseVisualStyleBackColor = true;
             // 
@@ -592,11 +606,11 @@ namespace shot_detection_src_30
             this.lstShots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstShots.Enabled = false;
             this.lstShots.FormattingEnabled = true;
-            this.lstShots.Location = new System.Drawing.Point(141, 22);
+            this.lstShots.Location = new System.Drawing.Point(83, 20);
             this.lstShots.Name = "lstShots";
-            this.lstShots.Size = new System.Drawing.Size(121, 21);
+            this.lstShots.Size = new System.Drawing.Size(98, 21);
             this.lstShots.TabIndex = 1;
-            this.lstShots.SelectedIndexChanged += new System.EventHandler(lstShotsChanged);
+            this.lstShots.SelectedIndexChanged += new System.EventHandler(this.lstShotsChanged);
             // 
             // label12
             // 
@@ -661,6 +675,7 @@ namespace shot_detection_src_30
         }
         State m_State = State.Uninit;
         DxPlay m_play = null;
+        Frames frames;
 
         //click on start button
         private void btnStart_Click(object sender, System.EventArgs e)
@@ -710,6 +725,7 @@ namespace shot_detection_src_30
                 btnPlayShot.Enabled = false;
                 btnRetrieve.Enabled = false;
                 btnAnnotate.Enabled = false;
+                btnExport.Enabled = false;
                 txtFileName.Enabled = false;
                 lstShots.Enabled = false;
                 btnBrowse.Enabled = false;
@@ -726,11 +742,12 @@ namespace shot_detection_src_30
                 if (lstShots.Items.Count != 0)
                 {
                     lstShots.Enabled = true;
+                    btnRetrieve.Enabled = true;
+                    btnExport.Enabled = true;
                     if (lstShots.SelectedItem != null)
                     {
                         btnPlayShot.Enabled = true;
                         btnAnnotate.Enabled = true;
-                        btnRetrieve.Enabled = true;
                     }
                 }
                 btnStart.Text = "Start";
@@ -770,6 +787,7 @@ namespace shot_detection_src_30
                 btnPlayShot.Enabled = false;
                 btnRetrieve.Enabled = false;
                 btnAnnotate.Enabled = false;
+                btnExport.Enabled = false;
 
             }
         }
@@ -859,6 +877,7 @@ namespace shot_detection_src_30
             else if (m_State == State.ShotPaused)
             {
                 m_play.Start();
+                btnStart.Enabled = false;
                 btnPlayShot.Text = "Pause shot";
                 m_State = State.ShotPlaying;
             }
@@ -874,9 +893,9 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
             lstShots.Items.Clear();
             DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
-            Frames frames = new Frames(txtFileName.Text, pd);
-            List<int> detectedShots = pd.getDetectedShots();
-            detectedShots.Add(pd.getFrameNumber());         
+            frames = new Frames(txtFileName.Text, pd);
+            pd.addLastFrame();
+            List<int> detectedShots = pd.getDetectedShots();        
             stopwatch.Stop();
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
@@ -885,13 +904,7 @@ namespace shot_detection_src_30
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
-            XDocument doc = new XDocument(
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
-                    )
-            );
-            //Save the document to a file.
-            doc.Save(txtoutput.Text + "\\PixelDifferenceSD.xml"); 
+            btnExport.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -905,9 +918,9 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
-            Frames frames = new Frames(txtFileName.Text, ghSD);
+            frames = new Frames(txtFileName.Text, ghSD);
+            ghSD.addLastFrame();
             List<int> detectedShots = ghSD.getDetectedShots();
-            detectedShots.Add(ghSD.getFrameNumber());
             stopwatch.Stop();
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
@@ -916,14 +929,8 @@ namespace shot_detection_src_30
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             } 
             lstShots.Enabled = true;
-            XDocument doc = new XDocument(
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
-                    )
-            );
+            btnExport.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //Save the document to a file.
-            doc.Save(txtoutput.Text + "\\GlobalHistogramSD.xml");
 
         }
 
@@ -937,9 +944,9 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtRegionsize.Text));
-            Frames frames = new Frames(txtFileName.Text, lhSD);
+            frames = new Frames(txtFileName.Text, lhSD);
+            lhSD.addLastFrame();
             List<int> detectedShots = lhSD.getDetectedShots();
-            detectedShots.Add(lhSD.getFrameNumber());
             stopwatch.Stop();
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
@@ -948,14 +955,8 @@ namespace shot_detection_src_30
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
-            XDocument doc = new XDocument(
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
-                    )
-            );
+            btnExport.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //Save the document to a file.
-            doc.Save(txtoutput.Text + "\\LocalHistogramSD.xml");
 
         }
 
@@ -969,9 +970,9 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
-            Frames frames = new Frames(txtFileName.Text, meSD);
+            frames = new Frames(txtFileName.Text, meSD);
+            meSD.addLastFrame();
             List<int> detectedShots = meSD.getDetectedShots();
-            detectedShots.Add(meSD.getFrameNumber());
             stopwatch.Stop();
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
@@ -980,14 +981,8 @@ namespace shot_detection_src_30
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
-            XDocument doc = new XDocument(
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
-                    )
-            );
+            btnExport.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //Save the document to a file.
-            doc.Save(txtoutput.Text + "\\MotionEstimationSD.xml");
 
         }
 
@@ -999,10 +994,10 @@ namespace shot_detection_src_30
             stopwatch.Start();
             lstShots.Items.Clear();
             GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtRegionGeneralized.Text));
-            Frames frames = new Frames(txtFileName.Text, gSD);
+            frames = new Frames(txtFileName.Text, gSD);
             gSD.detectGradualTransitions();
+            gSD.addLastFrame();
             List<int> detectedShots = gSD.getDetectedShots();
-            detectedShots.Add(gSD.getFrameNumber());
             stopwatch.Stop();
             List<String> shotList = new List<String>();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
@@ -1011,16 +1006,20 @@ namespace shot_detection_src_30
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
-            XDocument doc = new XDocument(
-                    new XElement("ShotDetection",
-                        new XElement("shot", shotList.Select(x => new XElement("shot", new XAttribute("value", x))))
-                    )
-            );
+            btnExport.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //Save the document to a file.
-            doc.Save(txtoutput.Text + "\\GeneralizedSD.xml");
         }
 
+        //when the user clicks on the export button, the shot information found is exported to an XML-file
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            DetectionAlgorithm algo = frames.getDetectionAlgo();
+            char[] delimiterChars = { '\\' };
+            string[] path = txtFileName.Text.Split(delimiterChars);
+            algo.export(path[path.Length - 1], txtoutput.Text);
+        }
+
+        //event listener for when the user selects a specific shot
         private void lstShotsChanged(object sender, EventArgs e)
         {
             btnPlayShot.Enabled = true;
@@ -1074,6 +1073,7 @@ namespace shot_detection_src_30
         private Label label13;
         private Button btnPlayShot;
         private Button btnRetrieve;
+        private Button btnExport;
         
     }
 }

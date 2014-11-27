@@ -65,6 +65,7 @@ namespace shot_detection_src_30
             {
                 // Set up the capture graph
                 SetupGraph(FileName, algo);
+                this.algo = algo;
                 Start();
                 WaitUntilDone();
             }
@@ -281,6 +282,11 @@ namespace shot_detection_src_30
                 m_FilterGraph = null;
             }
             GC.Collect();
+        }
+
+        public DetectionAlgorithm getDetectionAlgo()
+        {
+            return algo;
         }
 
         /// <summary> sample callback, NOT USED. </summary>
