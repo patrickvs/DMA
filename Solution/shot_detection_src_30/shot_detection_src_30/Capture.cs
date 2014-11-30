@@ -211,6 +211,28 @@ namespace shot_detection_src_30
             }
         }
 
+        //next image
+        public void Next()
+        {
+            int hr = m_mediaCtrl.Run();
+            DsError.ThrowExceptionForHR(hr);
+        }
+
+
+        public void WaitUntilDone()
+        {
+            int hr;
+            EventCode evCode;
+            const int E_Abort = unchecked((int)0x80004004);
+
+            do
+            {
+                System.Windows.Forms.Application.DoEvents();
+                hr = this.m_mediaEvent.WaitForCompletion(100, out evCode);
+            } while (hr == E_Abort);
+            DsError.ThrowExceptionForHR(hr);
+        }
+
         // Pause the capture graph.
         public void Pause()
         {
@@ -241,8 +263,11 @@ namespace shot_detection_src_30
         {
             int hr;
 
-            IMediaPosition imp = m_FilterGraph as IMediaPosition;
-            hr = imp.put_CurrentPosition(0);
+            IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
+            ims.SetTimeFormat(TimeFormat.Frame);
+            DsLong start = new DsLong(0);
+            DsLong stop = new DsLong(getFrameCount());
+            hr  = ims.SetPositions(start, AMSeekingSeekingFlags.AbsolutePositioning, stop, AMSeekingSeekingFlags.AbsolutePositioning);
         }
 
         //used to play a specific shot
@@ -255,8 +280,17 @@ namespace shot_detection_src_30
             Stop();
             DsLong start = new DsLong(startFrame);
             DsLong stop = new DsLong(stopFrame);
-            ims.SetPositions(start, AMSeekingSeekingFlags.AbsolutePositioning, stopFrame, AMSeekingSeekingFlags.AbsolutePositioning);
+            ims.SetPositions(start, AMSeekingSeekingFlags.AbsolutePositioning, stop, AMSeekingSeekingFlags.AbsolutePositioning);
             Start();
+        }
+
+        public long getFrameCount()
+        {
+            IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
+            ims.SetTimeFormat(TimeFormat.Frame);
+            long duration;
+            ims.GetDuration(out duration);
+            return duration;
         }
 
         // Grab a snapshot of the most recent image played.

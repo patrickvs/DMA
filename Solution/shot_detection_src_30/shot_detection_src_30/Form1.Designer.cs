@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
+using System.Drawing;
 
 
 namespace shot_detection_src_30
@@ -1018,7 +1019,9 @@ namespace shot_detection_src_30
         //when the user clicks on the export button, the shot information found is exported to an XML-file
         private void btnExport_Click(object sender, EventArgs e)
         {
+
             DetectionAlgorithm algo = frames.getDetectionAlgo();
+            List<int> detectedShots = algo.getDetectedShots();
             char[] delimiterChars = { '\\' };
             string[] path = txtFileName.Text.Split(delimiterChars);
             algo.export(path[path.Length - 1], txtoutput.Text);
@@ -1027,13 +1030,16 @@ namespace shot_detection_src_30
         private void btnAnnotate_Click(object sender, EventArgs e)
         {
             string annotation = cmbAnnotation.Text;
+            //if the user has filled in something and it isn't in the list yet
             if (annotation != null && annotation != "" && !cmbAnnotation.Items.Contains(annotation))
             {
-
+                //get the starting frame of the shot, this is to be able to get the index 
+                //in the annoation array
                 char[] delimiterChars = { '-' };
                 string[] frame = lstShots.SelectedItem.ToString().Split(delimiterChars);
 
                 DetectionAlgorithm algo = frames.getDetectionAlgo();
+                //get the index of the shot in the list, this is the same index as in the annotations array
                 int index = algo.getDetectedShots().IndexOf(Int16.Parse(frame[0]));
                 algo.annotate(index, annotation);
                 cmbAnnotation.Items.Add(annotation);
@@ -1043,17 +1049,21 @@ namespace shot_detection_src_30
         private void btnRetrieve_Click(object sender, EventArgs e)
         {
             string annotation = cmbAnnotation.Text;
+            //reset the shots so it can be filled with the shots which has the specific annotation
             lstShots.ResetText();
             lstShots.Items.Clear();
             DetectionAlgorithm algo = frames.getDetectionAlgo();
             List<int> detectedShots = algo.getDetectedShots();
             List<string>[] annotations = algo.getAnnotations();
+            //if an annotation has been filled in, retrieve the shots with that annotation
             if (annotation != null && annotation != "")
             {
+                //if the array exists, if there is at least one annotation
                 if (annotations != null)
                 {
                     for (int i = 0; i < annotations.Length; i++)
                     {
+                        //if there is at least one annotation for this shot and the annotation exists
                         if (annotations[i] != null && annotations[i].Contains(annotation))
                         {
                             lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
@@ -1061,6 +1071,7 @@ namespace shot_detection_src_30
                     }
                 }
             }
+            //else fill the list with all the shots
             else
             {
                 for (int i = 0; i < detectedShots.Count - 1; i++)
@@ -1084,13 +1095,16 @@ namespace shot_detection_src_30
             cmbAnnotation.Items.Add("");
             cmbAnnotation.Items.Clear();
             List<string>[] annotations = frames.getDetectionAlgo().getAnnotations();
+            //fill the annotations at the correct shots
             if (annotations != null)
             {
+                //get the starting frame of the shot, to get the index of the annotations array
                 char[] delimiterChars = { '-' };
                 string[] frame = lstShots.SelectedItem.ToString().Split(delimiterChars);
 
                 DetectionAlgorithm algo = frames.getDetectionAlgo();
                 int index = algo.getDetectedShots().IndexOf(Int16.Parse(frame[0]));
+                //fill the annotations combobox
                 if (annotations[index] != null)
                 {
                     for (int i = 0; i < annotations[index].Count; i++)

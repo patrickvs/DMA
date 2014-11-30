@@ -96,10 +96,10 @@ namespace shot_detection_src_30
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 //if there are annotations for this shot
-                if (annotations[i] != null){
+                if (annotations != null && annotations[i] != null){
                     //the \n and \t are for a better layout, nothing more!
-                        doc.Root.Element("shots").Add(new XElement("shot", "\n\t" + shotList[i] + "\n\t",
-                            new XElement("Annotations", "\n\t\t", annotations[i].Select(x => new XElement("Annotation", "\n\t\t\t" + x + "\n\t\t")), "\n\t")));
+                    doc.Root.Element("shots").Add(new XElement("shot", "\n\t" + shotList[i] + "\n\t",
+                         new XElement("Annotations", "\n\t\t", annotations[i].Select(x => new XElement("Annotation", "\n\t\t\t" + x + "\n\t\t")), "\n\t")));
                 }
                 else
                 {
