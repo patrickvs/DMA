@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace shot_detection_src_30
 {
@@ -17,6 +18,7 @@ namespace shot_detection_src_30
         protected int m_videoWidth;
         protected int m_stride;
         protected List<int> detectedShots = new List<int>();
+        private List<string>[] annotations = null;
 
         private int frameNumber = 0;
         private byte[] p; //container for the previous frame
@@ -73,17 +75,60 @@ namespace shot_detection_src_30
             detectedShots.Add(frameNumber);
         }
 
+        public List<string>[] getAnnotations()
+        {
+            return annotations;
+        }
+
         //abstract method to compare frames
         abstract public void compareFrames(byte[] p, byte[] c, int frameNumber);
 
         //abstract method to export the shot information found with a specific detection algorithm
         abstract public void export(string inputfile, string outputfolder);
 
+        protected void addShotInformation(XDocument doc)
+        {
+            //adds the shots element
+            doc.Root.Add(new XElement("shots"));
+            List<string> shotList = new List<string>();
+            //loops over all the shots and adds the shot with the corresponding annotations information
+            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            {
+                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                //if there are annotations for this shot
+                if (annotations[i] != null){
+                    //the \n and \t are for a better layout, nothing more!
+                        doc.Root.Element("shots").Add(new XElement("shot", "\n\t" + shotList[i] + "\n\t",
+                            new XElement("Annotations", "\n\t\t", annotations[i].Select(x => new XElement("Annotation", "\n\t\t\t" + x + "\n\t\t")), "\n\t")));
+                }
+                else
+                {
+                    doc.Root.Element("shots").Add(new XElement("shot", shotList[i]));
+                }
+            }
+            
+        }
+
 
         public int SampleCB(double SampleTime, IMediaSample pSample)
         {
             //not used
             throw new NotImplementedException();
+        }
+
+        public void annotate(int index, string annotation)
+        {
+            if (annotations == null)
+            {
+                annotations = new List<string>[detectedShots.Count];
+            }
+
+            if (annotations[index] == null)
+            {
+                annotations[index] = new List<string>();
+            }
+
+            annotations[index].Add(annotation);
         }
     }
 }

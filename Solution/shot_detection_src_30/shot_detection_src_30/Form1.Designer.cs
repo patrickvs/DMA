@@ -97,10 +97,10 @@ namespace shot_detection_src_30
             this.btnRetrieve = new System.Windows.Forms.Button();
             this.btnPlayShot = new System.Windows.Forms.Button();
             this.btnAnnotate = new System.Windows.Forms.Button();
-            this.txtAnnotation = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.lstShots = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.cmbAnnotation = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -528,11 +528,11 @@ namespace shot_detection_src_30
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cmbAnnotation);
             this.groupBox7.Controls.Add(this.btnExport);
             this.groupBox7.Controls.Add(this.btnRetrieve);
             this.groupBox7.Controls.Add(this.btnPlayShot);
             this.groupBox7.Controls.Add(this.btnAnnotate);
-            this.groupBox7.Controls.Add(this.txtAnnotation);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.lstShots);
             this.groupBox7.Controls.Add(this.label12);
@@ -563,6 +563,7 @@ namespace shot_detection_src_30
             this.btnRetrieve.TabIndex = 6;
             this.btnRetrieve.Text = "Retrieve";
             this.btnRetrieve.UseVisualStyleBackColor = true;
+            this.btnRetrieve.Click += new System.EventHandler(this.btnRetrieve_Click);
             // 
             // btnPlayShot
             // 
@@ -584,13 +585,7 @@ namespace shot_detection_src_30
             this.btnAnnotate.TabIndex = 4;
             this.btnAnnotate.Text = "Annotate";
             this.btnAnnotate.UseVisualStyleBackColor = true;
-            // 
-            // txtAnnotation
-            // 
-            this.txtAnnotation.Location = new System.Drawing.Point(162, 59);
-            this.txtAnnotation.Name = "txtAnnotation";
-            this.txtAnnotation.Size = new System.Drawing.Size(100, 20);
-            this.txtAnnotation.TabIndex = 3;
+            this.btnAnnotate.Click += new System.EventHandler(this.btnAnnotate_Click);
             // 
             // label13
             // 
@@ -620,6 +615,15 @@ namespace shot_detection_src_30
             this.label12.Size = new System.Drawing.Size(63, 13);
             this.label12.TabIndex = 0;
             this.label12.Text = "Select shot:";
+            // 
+            // cmbAnnotation
+            // 
+            this.cmbAnnotation.Enabled = false;
+            this.cmbAnnotation.FormattingEnabled = true;
+            this.cmbAnnotation.Location = new System.Drawing.Point(141, 59);
+            this.cmbAnnotation.Name = "cmbAnnotation";
+            this.cmbAnnotation.Size = new System.Drawing.Size(121, 21);
+            this.cmbAnnotation.TabIndex = 8;
             // 
             // Form1
             // 
@@ -788,7 +792,8 @@ namespace shot_detection_src_30
                 btnRetrieve.Enabled = false;
                 btnAnnotate.Enabled = false;
                 btnExport.Enabled = false;
-
+                cmbAnnotation.Items.Clear();
+                cmbAnnotation.Enabled = false;
             }
         }
 
@@ -1019,12 +1024,81 @@ namespace shot_detection_src_30
             algo.export(path[path.Length - 1], txtoutput.Text);
         }
 
+        private void btnAnnotate_Click(object sender, EventArgs e)
+        {
+            string annotation = cmbAnnotation.Text;
+            if (annotation != null && annotation != "" && !cmbAnnotation.Items.Contains(annotation))
+            {
+
+                char[] delimiterChars = { '-' };
+                string[] frame = lstShots.SelectedItem.ToString().Split(delimiterChars);
+
+                DetectionAlgorithm algo = frames.getDetectionAlgo();
+                int index = algo.getDetectedShots().IndexOf(Int16.Parse(frame[0]));
+                algo.annotate(index, annotation);
+                cmbAnnotation.Items.Add(annotation);
+            }
+        }
+
+        private void btnRetrieve_Click(object sender, EventArgs e)
+        {
+            string annotation = cmbAnnotation.Text;
+            lstShots.ResetText();
+            lstShots.Items.Clear();
+            DetectionAlgorithm algo = frames.getDetectionAlgo();
+            List<int> detectedShots = algo.getDetectedShots();
+            List<string>[] annotations = algo.getAnnotations();
+            if (annotation != null && annotation != "")
+            {
+                if (annotations != null)
+                {
+                    for (int i = 0; i < annotations.Length; i++)
+                    {
+                        if (annotations[i] != null && annotations[i].Contains(annotation))
+                        {
+                            lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < detectedShots.Count - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+            }
+            cmbAnnotation.ResetText();
+            cmbAnnotation.Items.Clear();
+        }
+
         //event listener for when the user selects a specific shot
         private void lstShotsChanged(object sender, EventArgs e)
         {
             btnPlayShot.Enabled = true;
             btnAnnotate.Enabled = true;
             btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
+            cmbAnnotation.ResetText();
+            cmbAnnotation.Items.Clear();
+            cmbAnnotation.Items.Add("");
+            cmbAnnotation.Items.Clear();
+            List<string>[] annotations = frames.getDetectionAlgo().getAnnotations();
+            if (annotations != null)
+            {
+                char[] delimiterChars = { '-' };
+                string[] frame = lstShots.SelectedItem.ToString().Split(delimiterChars);
+
+                DetectionAlgorithm algo = frames.getDetectionAlgo();
+                int index = algo.getDetectedShots().IndexOf(Int16.Parse(frame[0]));
+                if (annotations[index] != null)
+                {
+                    for (int i = 0; i < annotations[index].Count; i++)
+                    {
+                        cmbAnnotation.Items.Add(annotations[index][i]);
+                    }
+                }
+            }
         }
 
         private TextBox txtThreshold1;
@@ -1069,11 +1143,11 @@ namespace shot_detection_src_30
         private Label label12;
         private ComboBox lstShots;
         private Button btnAnnotate;
-        private TextBox txtAnnotation;
         private Label label13;
         private Button btnPlayShot;
         private Button btnRetrieve;
         private Button btnExport;
+        private ComboBox cmbAnnotation;
         
     }
 }
