@@ -1051,17 +1051,20 @@ namespace shot_detection_src_30
             List<int> detectedShots = algo.getDetectedShots();
             char[] delimiterChars = { '\\' };
             string[] path = txtFileName.Text.Split(delimiterChars);
+            //export the XML-files
             algo.export(path[path.Length - 1], txtoutput.Text);
 
+            //fill the list with the correct framenumbers
             algo.fillFramesToExport();
 
-            string subPath = "ImagesPath"; // your code goes here
-
+            //check if the folder exists  or not
             bool exists = System.IO.Directory.Exists(txtoutput.Text + "\\shots");
 
+            //if it does not exist, create it
             if (!exists)
                 System.IO.Directory.CreateDirectory(txtoutput.Text + "\\shots");
 
+            //set the outputfile location for the exported frames
             algo.setOutputFile(txtoutput.Text + "\\shots");
             frames = new Frames(txtFileName.Text, algo);
         }

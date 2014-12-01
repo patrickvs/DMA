@@ -20,7 +20,7 @@ namespace shot_detection_src_30
         protected int m_videoWidth;
         protected int m_stride;
         protected List<int> detectedShots = new List<int>();
-        private List<int> framesToExport = new List<int>();
+        private List<int> framesToExport = new List<int>(); //the framenumbers that need to be exported
         private List<string>[] annotations = null;
         private string outputFile;
         private int shotNumber = 0;
@@ -37,6 +37,7 @@ namespace shot_detection_src_30
         //this method is called for each frame, pBuffer is a pointer to the first byte of the frame
         public unsafe int BufferCB(double SampleTime, IntPtr pBuffer, int BufferLen)
         {
+            //if the algorithm still needs to run
             if (framesToExport.Count == 0)
             {
                 c = new byte[m_videoHeight * m_videoWidth * 3];
@@ -44,6 +45,7 @@ namespace shot_detection_src_30
                 compareFrames(p, c, frameNumber);
                 p = c;
             }
+            //for the frames that  need to be exported
             else if (framesToExport.Contains(frameNumber))
             {
                 Bitmap bm = IPToBmp(pBuffer);
@@ -95,6 +97,7 @@ namespace shot_detection_src_30
             return annotations;
         }
 
+        //calculate the framenumbers that need to be exported, these are at the middle of a shot
         public void fillFramesToExport(){
             frameNumber = 0;
             shotNumber = 0;
