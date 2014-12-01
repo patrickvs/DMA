@@ -1,6 +1,8 @@
 ﻿using DirectShowLib;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -18,7 +20,10 @@ namespace shot_detection_src_30
         protected int m_videoWidth;
         protected int m_stride;
         protected List<int> detectedShots = new List<int>();
+        private List<int> framesToExport = new List<int>();
         private List<string>[] annotations = null;
+        private string outputFile;
+        private int shotNumber = 0;
 
         private int frameNumber = 0;
         private byte[] p; //container for the previous frame
@@ -32,11 +37,21 @@ namespace shot_detection_src_30
         //this method is called for each frame, pBuffer is a pointer to the first byte of the frame
         public unsafe int BufferCB(double SampleTime, IntPtr pBuffer, int BufferLen)
         {
-            c = new byte[m_videoHeight * m_videoWidth * 3];
-            Marshal.Copy(pBuffer, c, 0, m_videoHeight * m_videoWidth * 3);
-            compareFrames(p, c, frameNumber);
+            if (framesToExport.Count == 0)
+            {
+                c = new byte[m_videoHeight * m_videoWidth * 3];
+                Marshal.Copy(pBuffer, c, 0, m_videoHeight * m_videoWidth * 3);
+                compareFrames(p, c, frameNumber);
+                p = c;
+            }
+            else if (framesToExport.Contains(frameNumber))
+            {
+                Bitmap bm = IPToBmp(pBuffer);
+                bm.Save(outputFile + "\\shot" + shotNumber + ".jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                bm.Dispose();
+                shotNumber++;
+            }
             frameNumber++;
-            p = c;
             return 0;
         }
 
@@ -80,6 +95,23 @@ namespace shot_detection_src_30
             return annotations;
         }
 
+        public void fillFramesToExport(){
+            frameNumber = 0;
+            shotNumber = 0;
+            if (framesToExport.Count == 0)
+            {
+                for (int i = 0; i < detectedShots.Count - 1; i++)
+                {
+                    int frame = (int)(detectedShots[i] + (detectedShots[i + 1] - detectedShots[i]) / 2);
+                    framesToExport.Add(frame);
+                }
+            }
+        }
+
+        public void setOutputFile(string outputFile)
+        {
+            this.outputFile = outputFile;
+        }
         //abstract method to compare frames
         abstract public void compareFrames(byte[] p, byte[] c, int frameNumber);
 
@@ -95,18 +127,30 @@ namespace shot_detection_src_30
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
                 shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                doc.Root.Element("shots").Add(new XElement("shot", shotList[i]));
                 //if there are annotations for this shot
                 if (annotations != null && annotations[i] != null){
-                    //the \n and \t are for a better layout, nothing more!
-                    doc.Root.Element("shots").Add(new XElement("shot", "\n\t" + shotList[i] + "\n\t",
-                         new XElement("Annotations", "\n\t\t", annotations[i].Select(x => new XElement("Annotation", "\n\t\t\t" + x + "\n\t\t")), "\n\t")));
-                }
-                else
-                {
-                    doc.Root.Element("shots").Add(new XElement("shot", shotList[i]));
+                    doc.Root.Add(
+                         new XElement("Annotations", new XAttribute("shot", shotList[i]), annotations[i].Select(x => new XElement("Annotation", x))));
                 }
             }
             
+        }
+
+        // Convert a point to the raw pixel data to a .NET bitmap
+        public Bitmap IPToBmp(IntPtr ip)
+        {
+            // We know the Bits Per Pixel is 24 (3 bytes) because we forced it 
+            // to be with sampGrabber.SetMediaType()
+            int iBufSize = m_videoWidth * m_videoHeight * 3;
+
+            return new Bitmap(
+                m_videoWidth,
+                m_videoHeight,
+                -m_stride,
+                PixelFormat.Format24bppRgb,
+                (IntPtr)(ip.ToInt32() + iBufSize - m_stride)
+                );
         }
 
 

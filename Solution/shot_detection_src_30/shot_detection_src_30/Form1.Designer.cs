@@ -685,6 +685,7 @@ namespace shot_detection_src_30
         //click on start button
         private void btnStart_Click(object sender, System.EventArgs e)
         {
+
             // If necessary, close the old file
             if (m_State == State.Stopped)
             {
@@ -715,6 +716,7 @@ namespace shot_detection_src_30
                     MessageBox.Show("Failed to open file: " + ce.Message, "Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
             if (m_State == State.ShotPaused)
             {
                 btnPlayShot.Text = "Play shot";
@@ -732,6 +734,7 @@ namespace shot_detection_src_30
                 btnAnnotate.Enabled = false;
                 btnExport.Enabled = false;
                 txtFileName.Enabled = false;
+                cmbAnnotation.Enabled = false;
                 lstShots.Enabled = false;
                 btnBrowse.Enabled = false;
                 m_State = State.Playing;
@@ -749,6 +752,7 @@ namespace shot_detection_src_30
                     lstShots.Enabled = true;
                     btnRetrieve.Enabled = true;
                     btnExport.Enabled = true;
+                    cmbAnnotation.Enabled = true;
                     if (lstShots.SelectedItem != null)
                     {
                         btnPlayShot.Enabled = true;
@@ -795,6 +799,7 @@ namespace shot_detection_src_30
                 btnExport.Enabled = false;
                 cmbAnnotation.Items.Clear();
                 cmbAnnotation.Enabled = false;
+
             }
         }
 
@@ -811,6 +816,18 @@ namespace shot_detection_src_30
             btnStart.Text = "Start";
             btnPause.Text = "Pause";
             btnPlayShot.Text = "Play shot";
+            if (lstShots.Items.Count != 0)
+            {
+                lstShots.Enabled = true;
+                btnRetrieve.Enabled = true;
+                btnExport.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                if (lstShots.SelectedItem != null)
+                {
+                    btnPlayShot.Enabled = true;
+                    btnAnnotate.Enabled = true;
+                }
+            }
 
             CheckForIllegalCrossThreadCalls = true;
 
@@ -911,6 +928,8 @@ namespace shot_detection_src_30
             }
             lstShots.Enabled = true;
             btnExport.Enabled = true;
+            btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -936,6 +955,8 @@ namespace shot_detection_src_30
             } 
             lstShots.Enabled = true;
             btnExport.Enabled = true;
+            btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
         }
@@ -962,6 +983,8 @@ namespace shot_detection_src_30
             }
             lstShots.Enabled = true;
             btnExport.Enabled = true;
+            btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
         }
@@ -988,6 +1011,8 @@ namespace shot_detection_src_30
             }
             lstShots.Enabled = true;
             btnExport.Enabled = true;
+            btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
         }
@@ -1013,6 +1038,8 @@ namespace shot_detection_src_30
             }
             lstShots.Enabled = true;
             btnExport.Enabled = true;
+            btnRetrieve.Enabled = true;
+            cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -1025,6 +1052,18 @@ namespace shot_detection_src_30
             char[] delimiterChars = { '\\' };
             string[] path = txtFileName.Text.Split(delimiterChars);
             algo.export(path[path.Length - 1], txtoutput.Text);
+
+            algo.fillFramesToExport();
+
+            string subPath = "ImagesPath"; // your code goes here
+
+            bool exists = System.IO.Directory.Exists(txtoutput.Text + "\\shots");
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory(txtoutput.Text + "\\shots");
+
+            algo.setOutputFile(txtoutput.Text + "\\shots");
+            frames = new Frames(txtFileName.Text, algo);
         }
 
         private void btnAnnotate_Click(object sender, EventArgs e)

@@ -211,28 +211,6 @@ namespace shot_detection_src_30
             }
         }
 
-        //next image
-        public void Next()
-        {
-            int hr = m_mediaCtrl.Run();
-            DsError.ThrowExceptionForHR(hr);
-        }
-
-
-        public void WaitUntilDone()
-        {
-            int hr;
-            EventCode evCode;
-            const int E_Abort = unchecked((int)0x80004004);
-
-            do
-            {
-                System.Windows.Forms.Application.DoEvents();
-                hr = this.m_mediaEvent.WaitForCompletion(100, out evCode);
-            } while (hr == E_Abort);
-            DsError.ThrowExceptionForHR(hr);
-        }
-
         // Pause the capture graph.
         public void Pause()
         {
@@ -265,6 +243,7 @@ namespace shot_detection_src_30
 
             IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
             ims.SetTimeFormat(TimeFormat.Frame);
+            Stop();
             DsLong start = new DsLong(0);
             DsLong stop = new DsLong(getFrameCount());
             hr  = ims.SetPositions(start, AMSeekingSeekingFlags.AbsolutePositioning, stop, AMSeekingSeekingFlags.AbsolutePositioning);
@@ -284,6 +263,12 @@ namespace shot_detection_src_30
             Start();
         }
 
+        public void addToBuffer(long frameNumber)
+        {
+            playShot(frameNumber, frameNumber);
+        }
+
+
         public long getFrameCount()
         {
             IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
@@ -291,6 +276,12 @@ namespace shot_detection_src_30
             long duration;
             ims.GetDuration(out duration);
             return duration;
+        }
+
+        public Bitmap exportFrame()
+        {
+            Bitmap bm = IPToBmp(SnapShot());
+            return bm;
         }
 
         // Grab a snapshot of the most recent image played.
