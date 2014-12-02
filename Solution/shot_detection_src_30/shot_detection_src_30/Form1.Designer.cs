@@ -743,12 +743,12 @@ namespace shot_detection_src_30
                 m_play.Start();
                 btnPause.Enabled = true;
                 btnPlayShot.Enabled = false;
-                btnRetrieve.Enabled = false;
-                btnAnnotate.Enabled = false;
-                btnExport.Enabled = false;
+                //btnRetrieve.Enabled = false;
+                //btnAnnotate.Enabled = false;
+                //btnExport.Enabled = false;
                 txtFileName.Enabled = false;
-                cmbAnnotation.Enabled = false;
-                lstShots.Enabled = false;
+                //cmbAnnotation.Enabled = false;
+                //lstShots.Enabled = false;
                 btnBrowse.Enabled = false;
                 m_State = State.Playing;
             }
@@ -762,14 +762,14 @@ namespace shot_detection_src_30
                 btnBrowse.Enabled = true;
                 if (lstShots.Items.Count != 0)
                 {
-                    lstShots.Enabled = true;
-                    btnRetrieve.Enabled = true;
-                    btnExport.Enabled = true;
-                    cmbAnnotation.Enabled = true;
+                    //lstShots.Enabled = true;
+                    //btnRetrieve.Enabled = true;
+                    //btnExport.Enabled = true;
+                    //cmbAnnotation.Enabled = true;
                     if (lstShots.SelectedItem != null)
                     {
                         btnPlayShot.Enabled = true;
-                        btnAnnotate.Enabled = true;
+                        //btnAnnotate.Enabled = true;
                     }
                 }
                 btnStart.Text = "Start";
@@ -831,10 +831,10 @@ namespace shot_detection_src_30
             btnPlayShot.Text = "Play shot";
             if (lstShots.Items.Count != 0)
             {
-                lstShots.Enabled = true;
-                btnRetrieve.Enabled = true;
-                btnExport.Enabled = true;
-                cmbAnnotation.Enabled = true;
+                //lstShots.Enabled = true;
+                //btnRetrieve.Enabled = true;
+                //btnExport.Enabled = true;
+                //cmbAnnotation.Enabled = true;
                 if (lstShots.SelectedItem != null)
                 {
                     btnPlayShot.Enabled = true;
@@ -1184,12 +1184,14 @@ namespace shot_detection_src_30
         //event listener for when the user selects a specific shot
         private void lstShotsChanged(object sender, EventArgs e)
         {
-            btnPlayShot.Enabled = true;
+            if (!btnStart.Text.Equals("Stop"))
+                btnPlayShot.Enabled = true;
             btnAnnotate.Enabled = true;
-            btnRetrieve.Enabled = true;
+            //btnRetrieve.Enabled = true;
             cmbAnnotation.Enabled = true;
             cmbAnnotation.ResetText();
             cmbAnnotation.Items.Clear();
+            //workaround for the visual bug which showed a large white box instead of an empty dropdown
             cmbAnnotation.Items.Add("");
             cmbAnnotation.Items.Clear();
             List<string>[] annotations = frames.getDetectionAlgo().getAnnotations();
