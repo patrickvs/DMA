@@ -71,7 +71,7 @@ namespace shot_detection_src_30
             this.label3 = new System.Windows.Forms.Label();
             this.txtoutput = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtRegionsize = new System.Windows.Forms.TextBox();
+            this.txtBlocks = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtBinsLocalHistogram = new System.Windows.Forms.TextBox();
             this.txtThresholdLocalHistogram = new System.Windows.Forms.TextBox();
@@ -87,13 +87,14 @@ namespace shot_detection_src_30
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.txtRegionGeneralized = new System.Windows.Forms.TextBox();
+            this.txtBlocksGeneralized = new System.Windows.Forms.TextBox();
             this.txtBinsGeneralized = new System.Windows.Forms.TextBox();
             this.btnStartGeneralizedSD = new System.Windows.Forms.Button();
-            this.lblRegionGeneralized = new System.Windows.Forms.Label();
+            this.lblBlocksGeneralized = new System.Windows.Forms.Label();
             this.lblBinsGeneralized = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cmbAnnotation = new System.Windows.Forms.ComboBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnRetrieve = new System.Windows.Forms.Button();
             this.btnPlayShot = new System.Windows.Forms.Button();
@@ -101,7 +102,6 @@ namespace shot_detection_src_30
             this.label13 = new System.Windows.Forms.Label();
             this.lstShots = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.cmbAnnotation = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -308,7 +308,7 @@ namespace shot_detection_src_30
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.txtRegionsize);
+            this.groupBox3.Controls.Add(this.txtBlocks);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txtBinsLocalHistogram);
             this.groupBox3.Controls.Add(this.txtThresholdLocalHistogram);
@@ -322,21 +322,21 @@ namespace shot_detection_src_30
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Local Histogram ShotDetection";
             // 
-            // txtRegionsize
+            // txtBlocks
             // 
-            this.txtRegionsize.Location = new System.Drawing.Point(162, 73);
-            this.txtRegionsize.Name = "txtRegionsize";
-            this.txtRegionsize.Size = new System.Drawing.Size(100, 20);
-            this.txtRegionsize.TabIndex = 15;
+            this.txtBlocks.Location = new System.Drawing.Point(162, 73);
+            this.txtBlocks.Name = "txtBlocks";
+            this.txtBlocks.Size = new System.Drawing.Size(100, 20);
+            this.txtBlocks.TabIndex = 15;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(9, 76);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 13);
+            this.label8.Size = new System.Drawing.Size(42, 13);
             this.label8.TabIndex = 14;
-            this.label8.Text = "Region size:";
+            this.label8.Text = "Blocks:";
             // 
             // txtBinsLocalHistogram
             // 
@@ -456,10 +456,10 @@ namespace shot_detection_src_30
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.txtRegionGeneralized);
+            this.groupBox5.Controls.Add(this.txtBlocksGeneralized);
             this.groupBox5.Controls.Add(this.txtBinsGeneralized);
             this.groupBox5.Controls.Add(this.btnStartGeneralizedSD);
-            this.groupBox5.Controls.Add(this.lblRegionGeneralized);
+            this.groupBox5.Controls.Add(this.lblBlocksGeneralized);
             this.groupBox5.Controls.Add(this.lblBinsGeneralized);
             this.groupBox5.Location = new System.Drawing.Point(665, 294);
             this.groupBox5.Name = "groupBox5";
@@ -468,12 +468,12 @@ namespace shot_detection_src_30
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Generalized ShotDetection";
             // 
-            // txtRegionGeneralized
+            // txtBlocksGeneralized
             // 
-            this.txtRegionGeneralized.Location = new System.Drawing.Point(162, 49);
-            this.txtRegionGeneralized.Name = "txtRegionGeneralized";
-            this.txtRegionGeneralized.Size = new System.Drawing.Size(100, 20);
-            this.txtRegionGeneralized.TabIndex = 13;
+            this.txtBlocksGeneralized.Location = new System.Drawing.Point(162, 49);
+            this.txtBlocksGeneralized.Name = "txtBlocksGeneralized";
+            this.txtBlocksGeneralized.Size = new System.Drawing.Size(100, 20);
+            this.txtBlocksGeneralized.TabIndex = 13;
             // 
             // txtBinsGeneralized
             // 
@@ -492,14 +492,14 @@ namespace shot_detection_src_30
             this.btnStartGeneralizedSD.UseVisualStyleBackColor = true;
             this.btnStartGeneralizedSD.Click += new System.EventHandler(this.StartGeneralizedSD_Click);
             // 
-            // lblRegionGeneralized
+            // lblBlocksGeneralized
             // 
-            this.lblRegionGeneralized.AutoSize = true;
-            this.lblRegionGeneralized.Location = new System.Drawing.Point(9, 49);
-            this.lblRegionGeneralized.Name = "lblRegionGeneralized";
-            this.lblRegionGeneralized.Size = new System.Drawing.Size(65, 13);
-            this.lblRegionGeneralized.TabIndex = 10;
-            this.lblRegionGeneralized.Text = "Region size:";
+            this.lblBlocksGeneralized.AutoSize = true;
+            this.lblBlocksGeneralized.Location = new System.Drawing.Point(9, 49);
+            this.lblBlocksGeneralized.Name = "lblBlocksGeneralized";
+            this.lblBlocksGeneralized.Size = new System.Drawing.Size(42, 13);
+            this.lblBlocksGeneralized.TabIndex = 10;
+            this.lblBlocksGeneralized.Text = "Blocks:";
             // 
             // lblBinsGeneralized
             // 
@@ -543,6 +543,15 @@ namespace shot_detection_src_30
             this.groupBox7.TabIndex = 21;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Shots";
+            // 
+            // cmbAnnotation
+            // 
+            this.cmbAnnotation.Enabled = false;
+            this.cmbAnnotation.FormattingEnabled = true;
+            this.cmbAnnotation.Location = new System.Drawing.Point(141, 59);
+            this.cmbAnnotation.Name = "cmbAnnotation";
+            this.cmbAnnotation.Size = new System.Drawing.Size(121, 21);
+            this.cmbAnnotation.TabIndex = 8;
             // 
             // btnExport
             // 
@@ -616,15 +625,6 @@ namespace shot_detection_src_30
             this.label12.Size = new System.Drawing.Size(63, 13);
             this.label12.TabIndex = 0;
             this.label12.Text = "Select shot:";
-            // 
-            // cmbAnnotation
-            // 
-            this.cmbAnnotation.Enabled = false;
-            this.cmbAnnotation.FormattingEnabled = true;
-            this.cmbAnnotation.Location = new System.Drawing.Point(141, 59);
-            this.cmbAnnotation.Name = "cmbAnnotation";
-            this.cmbAnnotation.Size = new System.Drawing.Size(121, 21);
-            this.cmbAnnotation.TabIndex = 8;
             // 
             // Form1
             // 
@@ -910,20 +910,20 @@ namespace shot_detection_src_30
         {
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
-            // Begin timing
-            stopwatch.Start();
+            
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
             lstShots.Items.Clear();
             DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
+            // Begin timing
+            stopwatch.Start();
             frames = new Frames(txtFileName.Text, pd);
+            
             pd.addLastFrame();
-            List<int> detectedShots = pd.getDetectedShots();        
             stopwatch.Stop();
-            List<String> shotList = new List<String>();
+            List<int> detectedShots = pd.getDetectedShots();     
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
-                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
@@ -937,22 +937,20 @@ namespace shot_detection_src_30
         {
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
-            // Begin timing
-            stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+            // Begin timing
+            stopwatch.Start();
             frames = new Frames(txtFileName.Text, ghSD);
             ghSD.addLastFrame();
-            List<int> detectedShots = ghSD.getDetectedShots();
             stopwatch.Stop();
-            List<String> shotList = new List<String>();
+            List<int> detectedShots = ghSD.getDetectedShots();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
-                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
-            } 
+            }
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
@@ -965,20 +963,18 @@ namespace shot_detection_src_30
         {
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
-            // Begin timing
-            stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
-            DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtRegionsize.Text));
+            DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
+            // Begin timing
+            stopwatch.Start();
             frames = new Frames(txtFileName.Text, lhSD);
             lhSD.addLastFrame();
-            List<int> detectedShots = lhSD.getDetectedShots();
             stopwatch.Stop();
-            List<String> shotList = new List<String>();
+            List<int> detectedShots = lhSD.getDetectedShots();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
-                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
@@ -993,20 +989,18 @@ namespace shot_detection_src_30
         {
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
-            // Begin timing
-            stopwatch.Start();
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
+            // Begin timing
+            stopwatch.Start();
             frames = new Frames(txtFileName.Text, meSD);
-            meSD.addLastFrame();
-            List<int> detectedShots = meSD.getDetectedShots();
+            meSD.addLastFrame(); 
             stopwatch.Stop();
-            List<String> shotList = new List<String>();
+            List<int> detectedShots = meSD.getDetectedShots();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
-                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
@@ -1021,19 +1015,18 @@ namespace shot_detection_src_30
         {
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
+            
+            lstShots.Items.Clear();
+            GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtBlocksGeneralized.Text));
             // Begin timing
             stopwatch.Start();
-            lstShots.Items.Clear();
-            GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtRegionGeneralized.Text));
             frames = new Frames(txtFileName.Text, gSD);
             gSD.detectGradualTransitions();
             gSD.addLastFrame();
-            List<int> detectedShots = gSD.getDetectedShots();
             stopwatch.Stop();
-            List<String> shotList = new List<String>();
+            List<int> detectedShots = gSD.getDetectedShots();
             for (int i = 0; i < detectedShots.Count() - 1; i++)
             {
-                shotList.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
             lstShots.Enabled = true;
@@ -1173,7 +1166,7 @@ namespace shot_detection_src_30
         private Label label3;
         private TextBox txtoutput;
         private GroupBox groupBox3;
-        private TextBox txtRegionsize;
+        private TextBox txtBlocks;
         private Label label8;
         private TextBox txtBinsLocalHistogram;
         private TextBox txtThresholdLocalHistogram;
@@ -1189,10 +1182,10 @@ namespace shot_detection_src_30
         private Label label10;
         private Label label11;
         private GroupBox groupBox5;
-        private TextBox txtRegionGeneralized;
+        private TextBox txtBlocksGeneralized;
         private TextBox txtBinsGeneralized;
         private Button btnStartGeneralizedSD;
-        private Label lblRegionGeneralized;
+        private Label lblBlocksGeneralized;
         private Label lblBinsGeneralized;
         private GroupBox groupBox6;
         private GroupBox groupBox7;

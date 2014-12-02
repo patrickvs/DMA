@@ -86,7 +86,6 @@ namespace shot_detection_src_30
             CloseInterfaces();
         }
 
-
         /// <summary> capture the next image </summary>
         public void Start()
         {

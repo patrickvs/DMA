@@ -19,15 +19,15 @@ namespace shot_detection_src_30
          */
 
         private int bins;
-        private int regionsize;
+        private int blocks;
         private List<int> differences = new List<int>();
         private double highTresh;
         private double lowTresh;
 
-        public GeneralizedSD(int bins, int regionsize)
+        public GeneralizedSD(int bins, int blocks)
         {
             this.bins = bins;
-            this.regionsize = regionsize;
+            this.blocks = blocks;
             detectedShots.Add(0); //first frame is start of a shot
         }
 
@@ -35,21 +35,22 @@ namespace shot_detection_src_30
         {
             if (frameNumber != 0)
             {
-                int horizontalregions = m_videoWidth / regionsize;
-                int verticalregions = m_videoHeight / regionsize;
+                int sqrtBlocks = (int)Math.Sqrt(blocks);
+                int hor = m_videoWidth / sqrtBlocks;
+                int ver = m_videoHeight / sqrtBlocks;
 
                 int diff = 0;
                 //loop over all regions
-                for (int r = 0; r < horizontalregions; r++)
+                for (int r = 0; r < sqrtBlocks; r++)
                 {
-                    for (int q = 0; q < verticalregions; q++)
+                    for (int q = 0; q < sqrtBlocks; q++)
                     {
-                        int[] prevhistoR = getLocalHistogram(p, bins, 0, r, q, regionsize);
-                        int[] prevhistoG = getLocalHistogram(p, bins, 1, r, q, regionsize);
-                        int[] prevhistoB = getLocalHistogram(p, bins, 2, r, q, regionsize);
-                        int[] curhistoR = getLocalHistogram(c, bins, 0, r, q, regionsize);
-                        int[] curhistoG = getLocalHistogram(c, bins, 1, r, q, regionsize);
-                        int[] curhistoB = getLocalHistogram(c, bins, 2, r, q, regionsize);
+                        int[] prevhistoR = getLocalHistogram(p, bins, 0, r, q, hor, ver);
+                        int[] prevhistoG = getLocalHistogram(p, bins, 1, r, q, hor, ver);
+                        int[] prevhistoB = getLocalHistogram(p, bins, 2, r, q, hor, ver);
+                        int[] curhistoR = getLocalHistogram(c, bins, 0, r, q, hor, ver);
+                        int[] curhistoG = getLocalHistogram(c, bins, 1, r, q, hor, ver);
+                        int[] curhistoB = getLocalHistogram(c, bins, 2, r, q, hor, ver);
                         //calculate diff between prev and cur for selected region
                         for (int j = 0; j < bins; j++)
                         {
@@ -63,13 +64,12 @@ namespace shot_detection_src_30
             }
         }
 
-        private int[] getLocalHistogram(Byte[] frame, int bins, int c, int curhor, int curvert, int regionsize)
+        private int[] getLocalHistogram(Byte[] frame, int bins, int c, int curhor, int curvert, int hor, int ver)
         {
-            //sets up the local histogram of the current frame
             int[] histogram = new int[bins];
-            for (int x = curhor * regionsize; x < ((curhor + 1) * regionsize); x++)
+            for (int x = curhor * hor; x < ((curhor + 1) * hor); x++)
             {
-                for (int y = curvert * regionsize; y < ((curvert + 1) * regionsize); y++)
+                for (int y = curvert * ver; y < ((curvert + 1) * ver); y++)
                 {
                     histogram[(frame[(y * m_videoWidth + x) * 3 + c]) / (int)Math.Ceiling(256.0 / bins)]++;
                 }
@@ -147,7 +147,7 @@ namespace shot_detection_src_30
                     new XElement("ShotDetection", new XAttribute("file", inputfile),
                         new XElement("method", new XAttribute("nr", 5),
                         new XElement("param1", bins),
-                        new XElement("param2", regionsize))
+                        new XElement("param2", blocks))
                     )
             );
             addShotInformation(doc);
