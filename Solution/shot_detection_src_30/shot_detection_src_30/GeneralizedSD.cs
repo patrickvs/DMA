@@ -88,8 +88,8 @@ namespace shot_detection_src_30
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / differences.Count);
             double median = getMedian();
 
-            const double alpha = 5.0;
-            lowTresh = Math.Max(median, avg);
+            const double alpha = 2.0;
+            lowTresh = avg * 1.5;
             highTresh = avg + alpha * sd;
         }
         private double getMedian()
@@ -113,26 +113,27 @@ namespace shot_detection_src_30
                 //enter the if statement. This is the start of a gradual transition.
 
                 //detect cuts
-                if (differences[i] >= highTresh && i + 1 - detectedShots[detectedShots.Count - 1] > 5)
+                if (differences[i] >= highTresh && i + 1 - detectedShots[detectedShots.Count - 1] > 4)
                 {
                     detectedShots.Add(i + 1);
                 }
                 else if (differences[i] > lowTresh)
                 {
+                    int j = 0;
                     //loop over consecutive frames until the difference is lower than the lower tresh.
                     while (i < differences.Count && differences[i] >= lowTresh && differences[i] < highTresh)
                     {
                         sum += differences[i];
-
+                        j++;
                         i++; //dont forget to adjust the for iterator!!!
                     }
                     //if left the while because there was a difference greater than the higher tresh -> cut
-                    if (differences[i] >= highTresh && i < differences.Count - 1 && i + 1 - detectedShots[detectedShots.Count - 1] > 5)
+                    if (differences[i] >= highTresh && i < differences.Count - 1 && i + 1 - detectedShots[detectedShots.Count - 1] > 4)
                     {
                         detectedShots.Add(i + 1);
                     }
                     //check if the sum surpasses the higher tresh, if it does there was a gradual transition
-                    else if (sum >= highTresh && i < differences.Count && i - detectedShots[detectedShots.Count - 1] > 5)
+                    else if (sum >= highTresh && i < differences.Count && j > 9)
                     {
                         detectedShots.Add(i);
                     }
