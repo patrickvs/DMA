@@ -86,7 +86,6 @@ namespace shot_detection_src_30
             double avg = differences.Average();
             double sumOfSquaresOfDifferences = differences.Select(val => (val - avg) * (val - avg)).Sum();
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / differences.Count);
-            MessageBox.Show(avg + " " + sd, "test");
             double median = getMedian();
 
             const double alpha = 5.0;

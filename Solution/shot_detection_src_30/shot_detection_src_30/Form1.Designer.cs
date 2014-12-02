@@ -94,6 +94,7 @@ namespace shot_detection_src_30
             this.lblBinsGeneralized = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.cmbAnnotation = new System.Windows.Forms.ComboBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnRetrieve = new System.Windows.Forms.Button();
@@ -529,6 +530,7 @@ namespace shot_detection_src_30
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.progressBar1);
             this.groupBox7.Controls.Add(this.cmbAnnotation);
             this.groupBox7.Controls.Add(this.btnExport);
             this.groupBox7.Controls.Add(this.btnRetrieve);
@@ -543,6 +545,18 @@ namespace shot_detection_src_30
             this.groupBox7.TabIndex = 21;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Shots";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(81, 18);
+            this.progressBar1.Maximum = 1736;
+            this.progressBar1.Minimum = 1;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Step = 200;
+            this.progressBar1.TabIndex = 9;
+            this.progressBar1.Value = 1;
+            this.progressBar1.Visible = false;
             // 
             // cmbAnnotation
             // 
@@ -906,6 +920,18 @@ namespace shot_detection_src_30
             }
         }
 
+        public void DisplayProgress()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new DetectionAlgorithm.ProgressDelegate(DisplayProgress));
+            }
+            else
+            {
+                this.progressBar1.PerformStep();
+            }
+        }
+
         private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
         {
             // Create new stopwatch
@@ -915,10 +941,14 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
             lstShots.Items.Clear();
             DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
+            pd.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+            progressBar1.Visible = true;
             // Begin timing
             stopwatch.Start();
             frames = new Frames(txtFileName.Text, pd);
-            
+            progressBar1.Maximum = (int)frames.getFrameCount();
+            frames.Start();
+            frames.WaitUntilDone();
             pd.addLastFrame();
             stopwatch.Stop();
             List<int> detectedShots = pd.getDetectedShots();     
@@ -926,12 +956,16 @@ namespace shot_detection_src_30
             {
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            progressBar1.Value = 1;
+            progressBar1.Visible = false;
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
             cmbAnnotation.Enabled = true;
             MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
+
+        
 
         private void StartGlobalHistogramSD_Click(object sender, EventArgs e)
         {
@@ -941,9 +975,14 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+            ghSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+            progressBar1.Visible = true;
             // Begin timing
             stopwatch.Start();
             frames = new Frames(txtFileName.Text, ghSD);
+            progressBar1.Maximum = (int)frames.getFrameCount();
+            frames.Start();
+            frames.WaitUntilDone();
             ghSD.addLastFrame();
             stopwatch.Stop();
             List<int> detectedShots = ghSD.getDetectedShots();
@@ -951,6 +990,8 @@ namespace shot_detection_src_30
             {
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            progressBar1.Value = 1;
+            progressBar1.Visible = false;
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
@@ -967,9 +1008,14 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
+            lhSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+            progressBar1.Visible = true;
             // Begin timing
             stopwatch.Start();
             frames = new Frames(txtFileName.Text, lhSD);
+            progressBar1.Maximum = (int)frames.getFrameCount();
+            frames.Start();
+            frames.WaitUntilDone();
             lhSD.addLastFrame();
             stopwatch.Stop();
             List<int> detectedShots = lhSD.getDetectedShots();
@@ -977,6 +1023,8 @@ namespace shot_detection_src_30
             {
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            progressBar1.Value = 1;
+            progressBar1.Visible = false;
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
@@ -993,9 +1041,14 @@ namespace shot_detection_src_30
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
             DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
+            meSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+            progressBar1.Visible = true;
             // Begin timing
             stopwatch.Start();
             frames = new Frames(txtFileName.Text, meSD);
+            progressBar1.Maximum = (int)frames.getFrameCount();
+            frames.Start();
+            frames.WaitUntilDone();
             meSD.addLastFrame(); 
             stopwatch.Stop();
             List<int> detectedShots = meSD.getDetectedShots();
@@ -1003,6 +1056,8 @@ namespace shot_detection_src_30
             {
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            progressBar1.Value = 1;
+            progressBar1.Visible = false;
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
@@ -1018,9 +1073,14 @@ namespace shot_detection_src_30
             
             lstShots.Items.Clear();
             GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtBlocksGeneralized.Text));
+            gSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+            progressBar1.Visible = true;
             // Begin timing
             stopwatch.Start();
             frames = new Frames(txtFileName.Text, gSD);
+            progressBar1.Maximum = (int)frames.getFrameCount();
+            frames.Start();
+            frames.WaitUntilDone();
             gSD.detectGradualTransitions();
             gSD.addLastFrame();
             stopwatch.Stop();
@@ -1029,6 +1089,8 @@ namespace shot_detection_src_30
             {
                 lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
             }
+            progressBar1.Value = 1;
+            progressBar1.Visible = false;
             lstShots.Enabled = true;
             btnExport.Enabled = true;
             btnRetrieve.Enabled = true;
@@ -1060,6 +1122,8 @@ namespace shot_detection_src_30
             //set the outputfile location for the exported frames
             algo.setOutputFile(txtoutput.Text + "\\shots");
             frames = new Frames(txtFileName.Text, algo);
+            frames.Start();
+            frames.WaitUntilDone();
         }
 
         private void btnAnnotate_Click(object sender, EventArgs e)
@@ -1197,6 +1261,7 @@ namespace shot_detection_src_30
         private Button btnRetrieve;
         private Button btnExport;
         private ComboBox cmbAnnotation;
+        private ProgressBar progressBar1;
         
     }
 }

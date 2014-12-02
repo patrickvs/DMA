@@ -66,8 +66,8 @@ namespace shot_detection_src_30
                 // Set up the capture graph
                 SetupGraph(FileName, algo);
                 this.algo = algo;
-                Start();
-                WaitUntilDone();
+                //Start();
+                //WaitUntilDone();
             }
             catch
             {
@@ -75,6 +75,16 @@ namespace shot_detection_src_30
                 throw;
             }
         }
+
+        public long getFrameCount()
+        {
+            IMediaSeeking ims = m_FilterGraph as IMediaSeeking;
+            ims.SetTimeFormat(TimeFormat.Frame);
+            long duration;
+            ims.GetDuration(out duration);
+            return duration;
+        }
+
         /// <summary> release everything. </summary>
         public void Dispose()
         {

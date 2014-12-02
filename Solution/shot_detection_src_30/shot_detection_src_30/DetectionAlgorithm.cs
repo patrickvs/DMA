@@ -25,6 +25,10 @@ namespace shot_detection_src_30
         private string outputFile;
         private int shotNumber = 0;
 
+
+        public delegate void ProgressDelegate();
+        public event ProgressDelegate Progress;
+
         private int frameNumber = 0;
         private byte[] p; //container for the previous frame
         private byte[] c; //container for the current frame
@@ -44,6 +48,8 @@ namespace shot_detection_src_30
                 Marshal.Copy(pBuffer, c, 0, m_videoHeight * m_videoWidth * 3);
                 compareFrames(p, c, frameNumber);
                 p = c;
+                if (frameNumber%200 == 0)
+                    RaiseProgress();
             }
             //for the frames that  need to be exported
             else if (framesToExport.Contains(frameNumber))
@@ -176,6 +182,14 @@ namespace shot_detection_src_30
             }
 
             annotations[index].Add(annotation);
+        }
+
+        private void RaiseProgress()
+        {
+            if (Progress != null)
+            {
+                Progress();
+            }
         }
     }
 }
