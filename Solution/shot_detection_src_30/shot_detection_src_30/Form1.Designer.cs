@@ -137,7 +137,6 @@ namespace shot_detection_src_30
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(100, 20);
             this.txtFileName.TabIndex = 3;
-            this.txtFileName.Text = "c:\\test.avi";
             // 
             // btnBrowse
             // 
