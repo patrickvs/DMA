@@ -947,6 +947,7 @@ namespace shot_detection_src_30
             }
             else
             {
+                disableAlgoButtons();
                 DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
                 pd.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
                 progressBar1.Visible = true;
@@ -969,6 +970,7 @@ namespace shot_detection_src_30
                 btnExport.Enabled = true;
                 btnRetrieve.Enabled = true;
                 cmbAnnotation.Enabled = true;
+                enableAlgoButtons();
                 MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         
             }
@@ -998,6 +1000,7 @@ namespace shot_detection_src_30
             }
             else
             {
+                disableAlgoButtons();
                 DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
                 ghSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
                 progressBar1.Visible = true;
@@ -1020,6 +1023,7 @@ namespace shot_detection_src_30
                 btnExport.Enabled = true;
                 btnRetrieve.Enabled = true;
                 cmbAnnotation.Enabled = true;
+                enableAlgoButtons();
                 MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
@@ -1050,6 +1054,7 @@ namespace shot_detection_src_30
             }
             else
             {
+                disableAlgoButtons();
                 DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
                 lhSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
                 progressBar1.Visible = true;
@@ -1072,6 +1077,7 @@ namespace shot_detection_src_30
                 btnExport.Enabled = true;
                 btnRetrieve.Enabled = true;
                 cmbAnnotation.Enabled = true;
+                enableAlgoButtons();
                 MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
@@ -1094,6 +1100,7 @@ namespace shot_detection_src_30
             }
             else
             {
+                disableAlgoButtons();
                 DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
                 meSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
                 progressBar1.Visible = true;
@@ -1116,6 +1123,7 @@ namespace shot_detection_src_30
                 btnExport.Enabled = true;
                 btnRetrieve.Enabled = true;
                 cmbAnnotation.Enabled = true;
+                enableAlgoButtons();
                 MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
@@ -1144,6 +1152,7 @@ namespace shot_detection_src_30
             }
             else
             {
+                disableAlgoButtons();
                 GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtBlocksGeneralized.Text));
                 gSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
                 progressBar1.Visible = true;
@@ -1167,8 +1176,27 @@ namespace shot_detection_src_30
                 btnExport.Enabled = true;
                 btnRetrieve.Enabled = true;
                 cmbAnnotation.Enabled = true;
+                enableAlgoButtons();
                 MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
+        }
+
+        private void enableAlgoButtons()
+        {
+            btnStartGeneralizedSD.Enabled = true;
+            btnStartGlobalHistogramSD.Enabled = true;
+            btnStartLocalHistogramSD.Enabled = true;
+            btnStartMotionEstimationSD.Enabled = true;
+            btnStartPixelDifferenceSD.Enabled = true;
+        }
+
+        private void disableAlgoButtons()
+        {
+            btnStartGeneralizedSD.Enabled = false;
+            btnStartGlobalHistogramSD.Enabled = false;
+            btnStartLocalHistogramSD.Enabled = false;
+            btnStartMotionEstimationSD.Enabled = false;
+            btnStartPixelDifferenceSD.Enabled = false;
         }
 
         //when the user clicks on the export button, the shot information found is exported to an XML-file
