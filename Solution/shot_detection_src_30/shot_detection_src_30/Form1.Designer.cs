@@ -1044,6 +1044,10 @@ namespace shot_detection_src_30
             {
                 MessageBox.Show("Number of bins should be between 1 and 256.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);           
             }
+            else if (Math.Pow(Math.Sqrt(temp), 2) != temp)
+            {
+                MessageBox.Show("Amount of blocks should be a square.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
             else
             {
                 DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
@@ -1133,6 +1137,10 @@ namespace shot_detection_src_30
             else if( Int32.Parse(txtBinsGeneralized.Text)<1 || Int32.Parse(txtBinsGeneralized.Text) > 256 )
             {
                 MessageBox.Show("Number of bins should be between 1 and 256.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);           
+            }
+            else if (Math.Pow(Math.Sqrt(temp), 2) != temp)
+            {
+                MessageBox.Show("Amount of blocks should be a square.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else
             {
