@@ -8,6 +8,8 @@ using System.Diagnostics;
 
 namespace shot_detection_src_30
 {
+    //this class is not used anymore! All the functionality is moved to the abstract class DetectionAlgorithm
+    //and the subclasses of that abstract class!
     class ShotDetection
     {
         public List<byte[]> frameList;

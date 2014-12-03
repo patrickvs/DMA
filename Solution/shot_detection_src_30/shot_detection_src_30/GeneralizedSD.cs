@@ -80,9 +80,11 @@ namespace shot_detection_src_30
         private void setTreshes()
         {
             //sets the treshes
-            //low thresh is equal to the average of the differences
+            //low thresh is equal to the average of the differences * 1.5
             //high tresh is equal to the mean of the differences + alpha * the standard deviation of the differences
-            //the best results are with alpha = 5 (got this from a paper)
+            //the best results are with alpha = 2.0
+            //It was also tested with the median of the differences, but this is not used anymore
+            //the code to calculate the median is not erased
             double avg = differences.Average();
             double sumOfSquaresOfDifferences = differences.Select(val => (val - avg) * (val - avg)).Sum();
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / differences.Count);
@@ -111,7 +113,8 @@ namespace shot_detection_src_30
                 double sum = 0.0;//sum of the differences in consecutive frames
                 //if there is a difference higher than the lower tresh and smaller than the higher tresh
                 //enter the if statement. This is the start of a gradual transition.
-
+                //A shot has to have at least 5 frames (the > 4 if statement)
+                //A gradual transition has to contain at least 10 frames to be able to be a transition (> 9 statement)
                 //detect cuts
                 if (differences[i] >= highTresh && i + 1 - detectedShots[detectedShots.Count - 1] > 4)
                 {
