@@ -934,34 +934,44 @@ namespace shot_detection_src_30
         private void StartPixelDifferenceSD_Click(object sender, EventArgs e)
         {
             // Create new stopwatch
-            Stopwatch stopwatch = new Stopwatch();
-            
-            //ShotDetection SD = new ShotDetection(txtFileName.Text);
-            //List<String> shotsDetected = SD.PixelDifferenceSD(Double.Parse(txtThreshold1.Text), Double.Parse(txtThreshold2.Text)*SD.width*SD.height/100);
+            Stopwatch stopwatch = new Stopwatch();            
             lstShots.Items.Clear();
-            DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
-            pd.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
-            progressBar1.Visible = true;
-            // Begin timing
-            stopwatch.Start();
-            frames = new Frames(txtFileName.Text, pd);
-            progressBar1.Maximum = (int)frames.getFrameCount();
-            frames.Start();
-            frames.WaitUntilDone();
-            pd.addLastFrame();
-            stopwatch.Stop();
-            List<int> detectedShots = pd.getDetectedShots();     
-            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            int temp;
+            if (txtFileName.Text == "") 
             {
-                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                MessageBox.Show("No input file selected.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            progressBar1.Value = 1;
-            progressBar1.Visible = false;
-            lstShots.Enabled = true;
-            btnExport.Enabled = true;
-            btnRetrieve.Enabled = true;
-            cmbAnnotation.Enabled = true;
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            else if (!((int.TryParse(txtThreshold1.Text, out temp)) && (int.TryParse(txtThreshold2.Text, out temp))))
+            {
+                MessageBox.Show("Wrong input format for parameters.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                DetectionAlgorithm pd = new PixelDifference(Int16.Parse(txtThreshold1.Text), Int16.Parse(txtThreshold2.Text));
+                pd.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+                progressBar1.Visible = true;
+                // Begin timing
+                stopwatch.Start();
+                frames = new Frames(txtFileName.Text, pd);
+                progressBar1.Maximum = (int)frames.getFrameCount();
+                frames.Start();
+                frames.WaitUntilDone();
+                pd.addLastFrame();
+                stopwatch.Stop();
+                List<int> detectedShots = pd.getDetectedShots();
+                for (int i = 0; i < detectedShots.Count() - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+                progressBar1.Value = 1;
+                progressBar1.Visible = false;
+                lstShots.Enabled = true;
+                btnExport.Enabled = true;
+                btnRetrieve.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        
+            }
         }
 
         
@@ -973,30 +983,45 @@ namespace shot_detection_src_30
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
             lstShots.Items.Clear();
-            DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
-            ghSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
-            progressBar1.Visible = true;
-            // Begin timing
-            stopwatch.Start();
-            frames = new Frames(txtFileName.Text, ghSD);
-            progressBar1.Maximum = (int)frames.getFrameCount();
-            frames.Start();
-            frames.WaitUntilDone();
-            ghSD.addLastFrame();
-            stopwatch.Stop();
-            List<int> detectedShots = ghSD.getDetectedShots();
-            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            int temp;
+            if (txtFileName.Text == "")
             {
-                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                MessageBox.Show("No input file selected.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            progressBar1.Value = 1;
-            progressBar1.Visible = false;
-            lstShots.Enabled = true;
-            btnExport.Enabled = true;
-            btnRetrieve.Enabled = true;
-            cmbAnnotation.Enabled = true;
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
+            else if (!((int.TryParse(txtThreshold.Text, out temp)) && (int.TryParse(txtBins.Text, out temp))))
+            {
+                MessageBox.Show("Wrong input format for parameters.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else if( Int32.Parse(txtBins.Text)<1 || Int32.Parse(txtBins.Text) > 256 )
+            {
+                MessageBox.Show("Number of bins should be between 1 and 256.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);           
+            }
+            else
+            {
+                DetectionAlgorithm ghSD = new GlobalHistogramSD(Double.Parse(txtThreshold.Text), Int32.Parse(txtBins.Text));
+                ghSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+                progressBar1.Visible = true;
+                // Begin timing
+                stopwatch.Start();
+                frames = new Frames(txtFileName.Text, ghSD);
+                progressBar1.Maximum = (int)frames.getFrameCount();
+                frames.Start();
+                frames.WaitUntilDone();
+                ghSD.addLastFrame();
+                stopwatch.Stop();
+                List<int> detectedShots = ghSD.getDetectedShots();
+                for (int i = 0; i < detectedShots.Count() - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+                progressBar1.Value = 1;
+                progressBar1.Visible = false;
+                lstShots.Enabled = true;
+                btnExport.Enabled = true;
+                btnRetrieve.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void StartLocalHistogramSD_Click(object sender, EventArgs e)
@@ -1006,30 +1031,45 @@ namespace shot_detection_src_30
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
-            DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
-            lhSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
-            progressBar1.Visible = true;
-            // Begin timing
-            stopwatch.Start();
-            frames = new Frames(txtFileName.Text, lhSD);
-            progressBar1.Maximum = (int)frames.getFrameCount();
-            frames.Start();
-            frames.WaitUntilDone();
-            lhSD.addLastFrame();
-            stopwatch.Stop();
-            List<int> detectedShots = lhSD.getDetectedShots();
-            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            int temp;
+            if (txtFileName.Text == "")
             {
-                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                MessageBox.Show("No input file selected.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            progressBar1.Value = 1;
-            progressBar1.Visible = false;
-            lstShots.Enabled = true;
-            btnExport.Enabled = true;
-            btnRetrieve.Enabled = true;
-            cmbAnnotation.Enabled = true;
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
+            else if (!((int.TryParse(txtThresholdLocalHistogram.Text, out temp)) && (int.TryParse(txtBinsLocalHistogram.Text, out temp)) && (int.TryParse(txtBlocks.Text, out temp))))
+            {
+                MessageBox.Show("Wrong input format for parameters.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else if( Int32.Parse(txtBinsLocalHistogram.Text)<1 || Int32.Parse(txtBinsLocalHistogram.Text) > 256 )
+            {
+                MessageBox.Show("Number of bins should be between 1 and 256.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);           
+            }
+            else
+            {
+                DetectionAlgorithm lhSD = new LocalHistogramSD(double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text), Int32.Parse(txtBlocks.Text));
+                lhSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+                progressBar1.Visible = true;
+                // Begin timing
+                stopwatch.Start();
+                frames = new Frames(txtFileName.Text, lhSD);
+                progressBar1.Maximum = (int)frames.getFrameCount();
+                frames.Start();
+                frames.WaitUntilDone();
+                lhSD.addLastFrame();
+                stopwatch.Stop();
+                List<int> detectedShots = lhSD.getDetectedShots();
+                for (int i = 0; i < detectedShots.Count() - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+                progressBar1.Value = 1;
+                progressBar1.Visible = false;
+                lstShots.Enabled = true;
+                btnExport.Enabled = true;
+                btnRetrieve.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void StartMotionEstimationSD_Click(object sender, EventArgs e)
@@ -1039,90 +1079,122 @@ namespace shot_detection_src_30
             //ShotDetection SD = new ShotDetection(txtFileName.Text);
             //List<String> shotsDetected = SD.LocalHistogramSD(Double.Parse(txtThresholdLocalHistogram.Text), Int32.Parse(txtBinsLocalHistogram.Text),Int32.Parse(txtRegionsize.Text));
             lstShots.Items.Clear();
-            DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
-            meSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
-            progressBar1.Visible = true;
-            // Begin timing
-            stopwatch.Start();
-            frames = new Frames(txtFileName.Text, meSD);
-            progressBar1.Maximum = (int)frames.getFrameCount();
-            frames.Start();
-            frames.WaitUntilDone();
-            meSD.addLastFrame(); 
-            stopwatch.Stop();
-            List<int> detectedShots = meSD.getDetectedShots();
-            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            int temp;
+            if (txtFileName.Text == "")
             {
-                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                MessageBox.Show("No input file selected.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            progressBar1.Value = 1;
-            progressBar1.Visible = false;
-            lstShots.Enabled = true;
-            btnExport.Enabled = true;
-            btnRetrieve.Enabled = true;
-            cmbAnnotation.Enabled = true;
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
+            else if (!((int.TryParse(txtThresholdMotionEstimation.Text, out temp)) && (int.TryParse(txtBlockSizeMotionEstimation.Text, out temp)) && (int.TryParse(txtWindowSizeMotionEstimation.Text, out temp))))
+            {
+                MessageBox.Show("Wrong input format for parameters.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                DetectionAlgorithm meSD = new MotionEstimation(double.Parse(txtThresholdMotionEstimation.Text), Int32.Parse(txtBlockSizeMotionEstimation.Text), Int32.Parse(txtWindowSizeMotionEstimation.Text));
+                meSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+                progressBar1.Visible = true;
+                // Begin timing
+                stopwatch.Start();
+                frames = new Frames(txtFileName.Text, meSD);
+                progressBar1.Maximum = (int)frames.getFrameCount();
+                frames.Start();
+                frames.WaitUntilDone();
+                meSD.addLastFrame();
+                stopwatch.Stop();
+                List<int> detectedShots = meSD.getDetectedShots();
+                for (int i = 0; i < detectedShots.Count() - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+                progressBar1.Value = 1;
+                progressBar1.Visible = false;
+                lstShots.Enabled = true;
+                btnExport.Enabled = true;
+                btnRetrieve.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void StartGeneralizedSD_Click(object sender, EventArgs e)
         {
             // Create new stopwatch
-            Stopwatch stopwatch = new Stopwatch();
-            
+            Stopwatch stopwatch = new Stopwatch();            
             lstShots.Items.Clear();
-            GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtBlocksGeneralized.Text));
-            gSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
-            progressBar1.Visible = true;
-            // Begin timing
-            stopwatch.Start();
-            frames = new Frames(txtFileName.Text, gSD);
-            progressBar1.Maximum = (int)frames.getFrameCount();
-            frames.Start();
-            frames.WaitUntilDone();
-            gSD.detectGradualTransitions();
-            gSD.addLastFrame();
-            stopwatch.Stop();
-            List<int> detectedShots = gSD.getDetectedShots();
-            for (int i = 0; i < detectedShots.Count() - 1; i++)
+            int temp;
+            if (txtFileName.Text == "")
             {
-                lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                MessageBox.Show("No input file selected.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            progressBar1.Value = 1;
-            progressBar1.Visible = false;
-            lstShots.Enabled = true;
-            btnExport.Enabled = true;
-            btnRetrieve.Enabled = true;
-            cmbAnnotation.Enabled = true;
-            MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            else if (!((int.TryParse(txtBinsGeneralized.Text, out temp)) && (int.TryParse(txtBlocksGeneralized.Text, out temp))))
+            {
+                MessageBox.Show("Wrong input format for parameters.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else if( Int32.Parse(txtBinsGeneralized.Text)<1 || Int32.Parse(txtBinsGeneralized.Text) > 256 )
+            {
+                MessageBox.Show("Number of bins should be between 1 and 256.", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);           
+            }
+            else
+            {
+                GeneralizedSD gSD = new GeneralizedSD(Int32.Parse(txtBinsGeneralized.Text), Int32.Parse(txtBlocksGeneralized.Text));
+                gSD.Progress += new DetectionAlgorithm.ProgressDelegate(DisplayProgress);
+                progressBar1.Visible = true;
+                // Begin timing
+                stopwatch.Start();
+                frames = new Frames(txtFileName.Text, gSD);
+                progressBar1.Maximum = (int)frames.getFrameCount();
+                frames.Start();
+                frames.WaitUntilDone();
+                gSD.detectGradualTransitions();
+                gSD.addLastFrame();
+                stopwatch.Stop();
+                List<int> detectedShots = gSD.getDetectedShots();
+                for (int i = 0; i < detectedShots.Count() - 1; i++)
+                {
+                    lstShots.Items.Add(detectedShots[i] + "-" + (detectedShots[i + 1] - 1));
+                }
+                progressBar1.Value = 1;
+                progressBar1.Visible = false;
+                lstShots.Enabled = true;
+                btnExport.Enabled = true;
+                btnRetrieve.Enabled = true;
+                cmbAnnotation.Enabled = true;
+                MessageBox.Show("The Shot Detection is completed in " + stopwatch.Elapsed, "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         //when the user clicks on the export button, the shot information found is exported to an XML-file
         private void btnExport_Click(object sender, EventArgs e)
         {
+            if (txtoutput.Text == "")
+            {
+                MessageBox.Show("No output folder selected", "SD", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                DetectionAlgorithm algo = frames.getDetectionAlgo();
+                List<int> detectedShots = algo.getDetectedShots();
+                char[] delimiterChars = { '\\' };
+                string[] path = txtFileName.Text.Split(delimiterChars);
+                //export the XML-files
+                algo.export(path[path.Length - 1], txtoutput.Text);
 
-            DetectionAlgorithm algo = frames.getDetectionAlgo();
-            List<int> detectedShots = algo.getDetectedShots();
-            char[] delimiterChars = { '\\' };
-            string[] path = txtFileName.Text.Split(delimiterChars);
-            //export the XML-files
-            algo.export(path[path.Length - 1], txtoutput.Text);
+                //fill the list with the correct framenumbers
+                algo.fillFramesToExport();
 
-            //fill the list with the correct framenumbers
-            algo.fillFramesToExport();
+                //check if the folder exists  or not
+                bool exists = System.IO.Directory.Exists(txtoutput.Text + "\\shots");
 
-            //check if the folder exists  or not
-            bool exists = System.IO.Directory.Exists(txtoutput.Text + "\\shots");
+                //if it does not exist, create it
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(txtoutput.Text + "\\shots");
 
-            //if it does not exist, create it
-            if (!exists)
-                System.IO.Directory.CreateDirectory(txtoutput.Text + "\\shots");
-
-            //set the outputfile location for the exported frames
-            algo.setOutputFile(txtoutput.Text + "\\shots");
-            frames = new Frames(txtFileName.Text, algo);
-            frames.Start();
-            frames.WaitUntilDone();
+                //set the outputfile location for the exported frames
+                algo.setOutputFile(txtoutput.Text + "\\shots");
+                frames = new Frames(txtFileName.Text, algo);
+                frames.Start();
+                frames.WaitUntilDone();
+            }
         }
 
         private void btnAnnotate_Click(object sender, EventArgs e)
