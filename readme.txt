@@ -61,3 +61,33 @@ range: 1-256
 blocks: the amount of blocks that are used for the local histogram, 9 blocks means that the frame is split into 9 equal blocks (3 horizontal, 3 vertical)
 range: 1-81(?) (can be higher, but not really useful then), must be a squared number
 
+
+
+
+Pixel Difference ShotDetection:
+
+  Threshold 1: Is a threshold, to determine if two pixels are changed or not. If the sum of the differences of the 3 colors, is greater than threshold 1, those pixels is counted as 'different'. So: given two pixels x and y, x is different than y if: |x_red - y_red| + |x_green - y_green| + |x_blue - y_blue| > threshold1
+
+  Threshold 2: Percentage (0-100) of how many pixels should have changed(with threshold1) between two frames to count those frames as the end and start of a shot.
+
+ Motion Estimation ShotDetection:
+
+  Threshold: For all blocks, the best matching block is determined. The sum of the pixels of the block itself and the pixels of the matching block are substracted. If we sum up those differences of all the blocks, and that difference is greater than the threshold, we have detected a shot.
+
+  Block size: size of each block, should be a common divisor of the height and width of the frames.
+
+  Window size: the 'window' is the area in which you search for matching blocks. The greater this window size is, the more abrupt changes you are able to detect. The window size is defined as half of the actual size of the window, as it is how far you look in all directions.
+
+ Global Histogram ShotDetection:
+
+  Threshold: If the sum of the differences between the bins in the histograms of two frames, is greater than the threshold, a shot is detected.
+
+  Bins: number of parts in which you divide the RGB-values. Should be between 0 and 256.
+
+ Local Histogram ShotDetection:
+
+  Threshold: For each block, the sum of the differences between the bins in the histograms of two frames, is determined. If the sum of those differences of all blocks is greater than the threshold, a shot is detected.
+
+  Bins: number of parts in which you divide the RGB-values. Should be between 0 and 256.
+
+  Blocks: Number of blocks in the frame; should be a square.
