@@ -91,3 +91,22 @@ Pixel Difference ShotDetection:
   Bins: number of parts in which you divide the RGB-values. Should be between 0 and 256.
 
   Blocks: Number of blocks in the frame; should be a square.
+
+  
+Parameters that give acceptable results for the return_jedi_trailer_cuts-only.avi file:
+
+Pixel Difference: 
+  Threshold1: 25-30
+  Threshold2: 70-80
+Motion Estimation: 
+  Threshold: 2000000
+  Block size: 22
+  Window size: 50
+Global Histogram:
+  Threshold: 100000
+  Number of bins: 64
+Local Histogram:
+  Threshold: 150000
+  Number of bins: 64
+  Blocks: 16
+
